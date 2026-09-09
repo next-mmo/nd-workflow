@@ -1,10 +1,10 @@
 # Workflow Starter Plugins
 
-Local beta packages for Claude Code, Cursor, Codex, ChatGPT, Windsurf, and Continue. Seven on-demand skills share canonical source in `.agents/skills/`. Packaging version `0.1.0-beta.1` identifies these bundles only; no root release tag or public listing exists.
+Local beta packages for Claude Code, Cursor, Codex, ChatGPT, Windsurf, and Continue. Eight on-demand skills share canonical source in `.agents/skills/`. Packaging version `0.1.0-beta.1` identifies these bundles only; no root release tag or public listing exists.
 
 ## What you receive
 
-- Seven skills: setup-project, workflow-doctor, doc-lookup, spec-feature, converge-check, compound, bump-version.
+- Eight skills: setup-project, workflow-doctor, doc-lookup, task-status, spec-feature, converge-check, compound, bump-version.
 - Guided adoption and read-only diagnosis: [ONBOARDING.md](ONBOARDING.md). Setup uses reviewed plans and recovery journals; no automatic global configuration changes.
 - Platform manifest plus explicit resource-resolution note in generated skills.
 - Closed core profile under `starter/`: policies, skills, templates, docs, and portable tooling. Runnable examples stay in the full source distribution, keeping plugin context and staging small.

@@ -35,6 +35,7 @@ REQUIRED_SKILLS = (
     "bump-version",
     "setup-project",
     "workflow-doctor",
+    "task-status",
 )
 # Hard-required manifest entries (independent of whatever else the
 # manifest lists). bootstrap = START-HERE.md (not .gitkeep).

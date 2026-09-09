@@ -6,7 +6,7 @@ import os
 import re
 from setup_project import safe_target, checked_path, JOURNAL
 
-SKILLS = ('setup-project', 'workflow-doctor', 'doc-lookup', 'spec-feature', 'converge-check', 'compound', 'bump-version')
+SKILLS = ('setup-project', 'workflow-doctor', 'doc-lookup', 'task-status', 'spec-feature', 'converge-check', 'compound', 'bump-version')
 
 
 def inspect_project(target):

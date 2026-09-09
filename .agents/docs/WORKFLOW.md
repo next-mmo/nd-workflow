@@ -13,6 +13,15 @@ Highest applicable risk wins; size never downgrades sensitive behavior. Risk fol
 
 A one-line auth fix is critical. Prose about auth is not automatically critical; security instructions affecting execution can still carry higher risk.
 
+## Specification and execution authorization
+
+- Direct implementation requests authorize their stated work, subject to risk and safety gates; clear fixes do not need a duplicate PRD or repeated permission. A specification-only request authorizes discovery, draft documents and drafting checkpoints, not implementation permission.
+- Before waiting for scope approval, save the draft PRD with open questions and a specification-only task checkpoint. A session checklist does not replace files. Record exact paths and verify they exist before reporting delivery; do not claim a complete draft if blocked inputs remain.
+- Questionnaire answers select requirements, not approval. Present the saved draft, identify its version, and stop for explicit scope approval. Silence, an ambiguous "continue", and an agent-written status label are not approval evidence.
+- Record approver, date, exact approved scope/version, decision evidence and exclusions. Scope approval permits task breakdown but not execution. An explicit approval and start instruction may authorize both; record each separately. Installs, destructive changes and publication retain their own gates.
+- Material scope changes invalidate affected approval: return proposal to draft, identify changed requirements and seek renewed approval before affected implementation. Non-semantic corrections retain approval with a recorded version mapping. On resume, verify approval evidence and execution authorization instead of trusting a task's next-command field.
+- A drafting task may finish with a delivered PRD still awaiting approval; an implementation task requires approved scope and execution authorization. A separate docs/plans file is optional when the task's inline plan suffices. Review-only requests remain read-only.
+
 ## Execution
 
 1. **Orient:** Inspect existing state, relevant source, and only necessary references. Resolve blocking uncertainty; do not re-specify approved requirements.

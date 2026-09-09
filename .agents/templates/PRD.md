@@ -12,7 +12,15 @@ Use only for unresolved product scope. Local delta convention, not an OpenSpec C
 ## Problem and scope
 - User / problem / desired outcome:
 - In scope / non-goals:
-- Approved decisions / open questions:
+- Selected requirements / open questions (clarification is not approval):
+
+## Approval record
+- Scope approval: pending (draft), approved, or invalidated; default pending.
+- Approver / decision date:
+- Exact approved requirement IDs, exclusions and document revision or content hash (identify the reviewed body, excluding this approval metadata):
+- Approval evidence: explicit user decision and durable reference/short quotation; never infer from questionnaire answers or an agent-written status.
+- Execution authorization: not authorized by default; record separate explicit implementation request, scope and evidence. One explicit approval-and-start decision may satisfy both records.
+- Scope changes since approval / renewed decision needed: material changes return to draft and invalidate affected approval; non-semantic edits retain a recorded version mapping.
 
 ## Canonical targets and baseline
 - Current feature/API/spec document(s), exact sections and stable requirement IDs:

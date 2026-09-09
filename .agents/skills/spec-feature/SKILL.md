@@ -25,11 +25,16 @@ This skill translates feature ideas, issues, and roadmap items into clean, actio
 3. Coordinate unique proposal/task IDs and integration owner. Never overwrite existing files; coordinator owns shared catalog/spec updates.
 
 ### Step 2: Draft only unresolved scope
+A `/spec-feature` or spec-only request is specification-only: discovery, draft documents and checkpoints are authorized, not code, dependency installation, benchmark runs or implementation delegation. Questionnaire answers are requirements input, not scope approval.
 Use `.agents/templates/PRD.md`; do not embed another template here. Record outcome, non-goals, decisions, observable scenarios, relevant failure cases, and recovery constraints.
 Use ADDED/MODIFIED/REMOVED only when useful. These are local summaries, not OpenSpec CLI schema. Modifications contain full resulting behavior; removals include migration effects.
+Save the draft PRD under `docs/prd/` with status `draft`. Before waiting or handing over, save a specification-only drafting checkpoint using `.agents/templates/TASK.md`: selected requirements, open questions, exact draft path/version, owner, next drafting action and implementation not authorized. A session checklist is not a deliverable. If blocked, save partial draft/checkpoint where authorized and state missing inputs rather than claiming completion. A separate plan file is optional.
+Verify saved paths, present the draft and unresolved decisions. Stop after presenting: request explicit approval of that version; do not start implementation. Draft delivery is complete for the drafting scope even while PRD approval remains pending.
 
 ### Step 3: Approve and assign
-Present unresolved scope for approval before implementation. Record approval and create tasks with `.agents/templates/TASK.md`, exact ownership, dependencies, write scope, and integration order. Worker returns proposed catalog/shared-doc edits to coordinator.
+Only an explicit user decision approving the presented scope changes the proposal to `approved`; silence, ambiguous continuation or an agent-written status is insufficient. Record approver, date, exact scope/version, decision evidence and exclusions in the PRD approval record.
+After approval, create the implementation task breakdown with `.agents/templates/TASK.md`, exact ownership, dependencies, write scope, and integration order. Scope approval alone does not authorize execution; wait for an explicit implementation request. One explicit instruction approving the identified draft and starting its implementation can satisfy both records, subject to risk/safety gates. Workers return proposed catalog/shared-doc edits to coordinator.
+Material scope changes return affected approval to pending; save the changed draft and obtain renewed approval before affected implementation. On resume, verify approval and execution evidence before taking a saved next action. Clear direct fixes outside this spec-only route retain `AGENTS.md` shortcuts.
 
 ### Step 4: Reconcile at integration
 Compare canonical targets against recorded baseline. Resolve concurrent conflicts before applying deltas; update current docs to describe implemented behavior with source/test links and deployment state. Record reconciliation in task before closure. Keep proposal as history; `shipped` requires release evidence. Follow `.agents/docs/WORKFLOW.md` for lifecycle details.

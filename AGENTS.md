@@ -5,7 +5,7 @@
 - Use [catalog](docs/README.md) for unknown topics, not mandatory rereads. Follow source when docs disagree; correct affected docs within scope.
 - Highest applicable risk wins, regardless of patch size; see [workflow](.agents/docs/WORKFLOW.md). Auth, payments, security, and data integrity require critical gates.
 - Clear, low-risk single-turn work: scoped edit and focused check. No PRD, task file, or delegation required.
-- Multi-step work: use [task](.agents/templates/TASK.md); checkpoint before pause or handover. Approved scope needs no duplicate specification.
+- Multi-step work: use [task](.agents/templates/TASK.md); checkpoint before pause or handover. Spec-only requests save drafts, then stop for approval; scope approval alone never authorizes implementation. See workflow for approval evidence and drafting checkpoints. Approved scope needs no duplicate specification.
 - Parallelism is optional. Assign exact task, owner, write scope, dependencies, and integration owner. Serialize shared writes; verify combined changes.
 
 ## Package Manager & Conventions
@@ -29,6 +29,7 @@
 - [setup-project](.agents/skills/setup-project/SKILL.md): guided adoption and migration.
 - [workflow-doctor](.agents/skills/workflow-doctor/SKILL.md): read-only setup diagnosis.
 - [doc-lookup](.agents/skills/doc-lookup/SKILL.md): targeted documentation lookup.
+- [task-status](.agents/skills/task-status/SKILL.md): task board, WIP, blockers, backlog.
 - [spec-feature](.agents/skills/spec-feature/SKILL.md): unresolved product scope.
 - [converge-check](.agents/skills/converge-check/SKILL.md): acceptance verification.
 - [compound](.agents/skills/compound/SKILL.md): durable, non-obvious learnings only; no-op allowed.

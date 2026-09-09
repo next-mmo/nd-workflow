@@ -8,6 +8,6 @@
     "Verify this task against current evidence and integration state.",
     "Capture durable learnings without duplicating project knowledge."
   ],
-  "skills": ["setup-project", "workflow-doctor", "doc-lookup", "spec-feature", "converge-check", "compound", "bump-version"],
+  "skills": ["setup-project", "workflow-doctor", "doc-lookup", "spec-feature", "converge-check", "compound", "bump-version", "task-status"],
   "sourcesChecked": "2026-09-09"
 }

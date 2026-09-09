@@ -43,7 +43,7 @@ Do not create adapters for tools you do not use. The included `CLAUDE.md` is a p
 
 1. Start a new session at project root. Use the tool's context/instruction inspector, when available, to confirm root instructions loaded. For Claude Code, check `/context` for `CLAUDE.md`.
 2. Ask which project instructions loaded and which rule applies to a one-line auth fix. Expected: highest applicable risk, not low-risk fast path. An answer alone does not prove automatic loading; check tool context when possible.
-3. Inspect available skills. Confirm the seven bundled names (setup-project, workflow-doctor, doc-lookup, spec-feature, converge-check, compound, bump-version) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
+3. Inspect available skills. Confirm the eight bundled names (setup-project, workflow-doctor, doc-lookup, task-status, spec-feature, converge-check, compound, bump-version) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
 4. Record tool version, setup route, and observed result in `.agents/docs/PROJECT.md`. Mark unchecked tools unverified; repeat after tool/config changes.
 
 Official references: [Codex repository workflows](https://developers.openai.com/blog/skills-agents-sdk), [Claude instructions](https://code.claude.com/docs/en/memory), [Claude skills](https://code.claude.com/docs/en/skills), [Aider conventions](https://aider.chat/docs/usage/conventions.html).
@@ -81,6 +81,7 @@ project-root/
 │   │   └── ARCHITECTURE.md       # Source-backed system map at adoption
 │   ├── skills/
 │   │   ├── doc-lookup/SKILL.md
+│   │   ├── task-status/SKILL.md
 │   │   ├── spec-feature/SKILL.md
 │   │   ├── converge-check/SKILL.md
 │   │   ├── compound/SKILL.md

@@ -39,6 +39,7 @@ FIXTURE_REQUIRED = [
     ".gitattributes",
     ".gitignore",
     "AGENTS.md",
+    "BENHMARK.md",
     "CLAUDE.md",
     "LICENSE",
     "README.md",
@@ -52,6 +53,7 @@ FIXTURE_REQUIRED = [
     ".agents/skills/converge-check/SKILL.md",
     ".agents/skills/doc-lookup/SKILL.md",
     ".agents/skills/spec-feature/SKILL.md",
+    ".agents/skills/task-status/SKILL.md",
     ".agents/skills/setup-project/SKILL.md",
     ".agents/skills/setup-project/references/superpowers.md",
     ".agents/skills/workflow-doctor/SKILL.md",
@@ -854,6 +856,44 @@ class TestDistributionLinks(FixtureTestCase):
         result = self.run_validate()
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('omitted from distribution manifest', result.stdout)
+
+class TestSpecificationApprovalContract(unittest.TestCase):
+    """Static instruction regressions, not proof of model/host compliance."""
+
+    def text(self, relative):
+        return (REPO_ROOT / relative).read_text(encoding="utf-8")
+
+    def test_spec_only_persists_draft_and_stops(self):
+        text = self.text(".agents/skills/spec-feature/SKILL.md")
+        for required in ("specification-only", "Save the draft PRD", "Stop after presenting",
+                         "Questionnaire answers", "not scope approval"):
+            self.assertIn(required, text)
+
+    def test_approval_provenance_and_execution_are_separate(self):
+        text = self.text(".agents/templates/PRD.md")
+        for required in ("## Approval record", "Approver", "revision or content hash",
+                         "Approval evidence", "Execution authorization", "not authorized"):
+            self.assertIn(required, text)
+
+    def test_drafting_checkpoint_is_not_an_implementation_task(self):
+        text = self.text(".agents/templates/TASK.md")
+        for required in ("specification-only", "Execution authorization",
+                         "drafting checkpoint", "session checklist is not a substitute"):
+            self.assertIn(required, text)
+
+    def test_workflow_preserves_direct_fixes_and_reapproval(self):
+        text = self.text(".agents/docs/WORKFLOW.md")
+        for required in ("## Specification and execution authorization",
+                         "Direct implementation requests", "explicit approval and start",
+                         "Material scope changes", "not implementation permission"):
+            self.assertIn(required, text)
+
+    def test_resume_checks_authorization(self):
+        text = self.text("docs/HANDOVER.md")
+        self.assertIn("approval evidence", text)
+        self.assertIn("execution authorization", text)
+        self.assertIn("awaiting approval", text)
+
 
 # --- Entry point --------------------------------------------------------
 

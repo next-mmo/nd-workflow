@@ -1,10 +1,13 @@
 # Task: <Outcome>
 
-Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep this file current before pause, handover, or completion.
+Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep this file current before pause, handover, or completion. A session checklist is not a substitute for this durable file. A pre-approval drafting checkpoint is allowed; it authorizes no implementation.
 
 ## Goal and scope
+- Mode: specification-only, implementation, or review-only; record the actual request, not an assumed default.
 - Outcome / why:
-- Approved requirement or issue:
+- Requirement or issue / exact draft or approved PRD path and version:
+- Scope approval evidence / approver / date / exclusions: pending for drafting; an explicit direct implementation request may define approved scope without a PRD.
+- Execution authorization: not authorized for specification-only/review-only; otherwise exact user request and authorized write/operation scope:
 - In scope / non-goals:
 - Risk and required gates:
 
@@ -17,7 +20,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
 - Integration owner / shared files / merge order:
 
 ## Plan and acceptance
-- Next implementation steps:
+- Next steps within authorized mode (draft/review steps before implementation authorization):
 - [ ] Observable outcome — required check:
 - [ ] Error or regression behavior — required check:
 - Canonical behavior/architecture targets; baseline and requirement IDs (or not applicable):
