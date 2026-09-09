@@ -1,6 +1,6 @@
 # Full-stack Todo: Express + Vanilla JavaScript
 
-Runnable local workflow exercise, not a production service. Node 24+, npm, Express 5.2.1; browser tests use Playwright 1.63.0. Dependencies pinned in package-lock.json. No bundler, external UI service, database install, or account required.
+Runnable local workflow exercise, not a production service. Node 20+, npm, Express 5.2.1; browser tests use Playwright 1.63.0. Dependencies pinned in package-lock.json. No bundler, external UI service, database install, or account required.
 
 ## Run from clean source
 
@@ -69,6 +69,6 @@ Before changing data manually: stop server; preserve a copy of `data/todos.json`
 - Start here, inspect source modules above, then run checks from clean lockfile installation.
 - Example-specific decisions live here; root PROJECT.md/ARCHITECTURE.md remain adoption templates, not a claim that every project uses this architecture.
 - Before pausing a change, record next command, partial work, invalidated evidence, and data-path ownership in the root task record; never share live data unintentionally.
-- Root [handover guide](../../docs/HANDOVER.md) and [RC evidence](../../docs/rc/2026-09-09-todo-rc.md) define broader gates and limitations.
+- Root [handover guide](../../docs/HANDOVER.md) defines broader gates and limitations.
 
 Official references: [Express error handling](https://expressjs.com/en/guide/error-handling.html), [Playwright tests](https://playwright.dev/docs/writing-tests). Express 5 forwards rejected asynchronous handlers to error middleware. No claim that all browsers/platforms or third-party coding agents were tested.

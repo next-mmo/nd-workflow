@@ -36,9 +36,12 @@ MANIFEST_NAME = "package-files.json"
 # All files required to build a valid fixture. RUNBOOK.md and
 # HANDOVER.md are required (per parent review).
 FIXTURE_REQUIRED = [
+    ".gitattributes",
     ".gitignore",
     "AGENTS.md",
     "CLAUDE.md",
+    "LICENSE",
+    "README.md",
     "START-HERE.md",
     "package-files.json",
     ".agents/docs/ARCHITECTURE.md",
@@ -49,10 +52,14 @@ FIXTURE_REQUIRED = [
     ".agents/skills/converge-check/SKILL.md",
     ".agents/skills/doc-lookup/SKILL.md",
     ".agents/skills/spec-feature/SKILL.md",
+    ".agents/skills/setup-project/SKILL.md",
+    ".agents/skills/setup-project/references/superpowers.md",
+    ".agents/skills/workflow-doctor/SKILL.md",
     ".agents/templates/PRD.md",
     ".agents/templates/RUNBOOK.md",
     ".agents/templates/TASK.md",
     "docs/HANDOVER.md",
+    "docs/ONBOARDING.md",
     "docs/README.md",
     "docs/plans/README.md",
     "docs/prd/README.md",
@@ -74,6 +81,8 @@ FIVE_SKILLS = (
 HARD_REQUIRED_NAMES = (
     "AGENTS.md",
     "CLAUDE.md",
+    "LICENSE",
+    "README.md",
     "START-HERE.md",
     "package-files.json",
     "scripts/validate.py",
@@ -90,7 +99,7 @@ def _read_text(path: Path) -> str:
 
 def _write_text(path: Path, content: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+    path.write_text(content, encoding="utf-8", newline="\n")
 
 
 def _copy(src: Path, dst: Path) -> None:
@@ -127,7 +136,7 @@ def _build_fixture(root: Path) -> list[str]:
 def _write_manifest(root: Path, files: list[str]) -> None:
     manifest = {"version": 1, "description": "Test fixture manifest", "files": files}
     (root / MANIFEST_NAME).write_text(
-        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
 
 
@@ -200,6 +209,21 @@ class FixtureTestCase(unittest.TestCase):
 # --- Positive baseline --------------------------------------------------
 
 class TestValidatePositive(FixtureTestCase):
+    def test_fixture_writer_preserves_utf8_lf_bytes(self) -> None:
+        path = self.fixture / "unicode-fixture.md"
+        _write_text(path, "# Tiếng Việt\n第二行\n")
+        self.assertEqual(path.read_bytes(), "# Tiếng Việt\n第二行\n".encode("utf-8"))
+
+    def test_line_ending_policy_is_distributed(self) -> None:
+        self.assertIn(".gitattributes", self.copied)
+        self.assertIn(b"* text=auto eol=lf", (self.fixture / ".gitattributes").read_bytes())
+
+    def test_line_ending_policy_is_independently_required(self) -> None:
+        _write_manifest(self.fixture, [p for p in self.copied if p != ".gitattributes"])
+        result = self.run_validate()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn(".gitattributes", result.stdout)
+
     def test_clean_fixture_passes(self) -> None:
         result = self.run_validate()
         self.assertEqual(

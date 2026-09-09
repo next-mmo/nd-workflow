@@ -24,6 +24,9 @@ node_modules/
 /example/full-stack-todo-express-vanillajs/.test-data/
 /example/full-stack-todo-express-vanillajs/test-results/
 /example/full-stack-todo-express-vanillajs/playwright-report/
+/example/full-stack-nd-workflow-cms-portfolio/data/
+/example/full-stack-nd-workflow-cms-portfolio/.test-data/
+/example/full-stack-nd-workflow-cms-portfolio/test-results/
 
 # OS metadata
 .DS_Store

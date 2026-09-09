@@ -27,21 +27,26 @@ import sys
 from pathlib import Path
 
 MANIFEST_FILENAME = "package-files.json"
-FIVE_SKILLS = (
+REQUIRED_SKILLS = (
     "doc-lookup",
     "spec-feature",
     "converge-check",
     "compound",
     "bump-version",
+    "setup-project",
+    "workflow-doctor",
 )
 # Hard-required manifest entries (independent of whatever else the
 # manifest lists). bootstrap = START-HERE.md (not .gitkeep).
 HARD_REQUIRED_FILES = (
+    ".gitattributes",
     ".gitignore",
     "docs/HANDOVER.md",
     ".agents/templates/RUNBOOK.md",
     "AGENTS.md",
     "CLAUDE.md",
+    "LICENSE",
+    "README.md",
     "START-HERE.md",
     "package-files.json",
     "scripts/validate.py",
@@ -320,7 +325,7 @@ def check_hard_required(files: list) -> list[str]:
     for required in HARD_REQUIRED_FILES:
         if required not in file_set:
             errors.append(f"required file missing from manifest: {required}")
-    for skill in FIVE_SKILLS:
+    for skill in REQUIRED_SKILLS:
         skill_path = f".agents/skills/{skill}/SKILL.md"
         if skill_path not in file_set:
             errors.append(f"required skill missing from manifest: {skill_path}")
@@ -432,7 +437,7 @@ def check_skill_frontmatter(root: Path, files: list) -> list[str]:
             errors.append(f"{rel}: frontmatter missing required 'name'")
         if "description" not in fm:
             errors.append(f"{rel}: frontmatter missing required 'description'")
-        if "name" in fm and fm["name"] not in FIVE_SKILLS:
+        if "name" in fm and fm["name"] not in REQUIRED_SKILLS:
             errors.append(
                 f"{rel}: frontmatter name '{fm['name']}' not in known skills"
             )

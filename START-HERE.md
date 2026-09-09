@@ -4,6 +4,12 @@ Lightweight, evidence-driven delivery workflow for coding projects. `AGENTS.md` 
 
 Tool-neutral instructions do not imply automatic discovery in every agent. Configure your tool below and verify loading in a fresh session.
 
+## Guided setup (recommended)
+
+Choose **fresh project**, **existing project**, or **migration from Superpowers** in [guided onboarding](docs/ONBOARDING.md). Invoke `setup-project`, or explicitly read `.agents/skills/setup-project/SKILL.md` if discovery is unavailable. Use `workflow-doctor` for read-only diagnosis.
+
+The guided CLI previews additions/conflicts, applies only a reviewed hash-bound plan, and keeps recovery evidence. Host installation, project adoption, instruction loading and application baseline are separate states. The manual route below remains supported.
+
 ## Safe Setup
 
 ### New Empty Project
@@ -16,7 +22,7 @@ Tool-neutral instructions do not imply automatic discovery in every agent. Confi
 
 1. Extract into a separate staging directory, not over your project.
 2. Inspect existing tracked, untracked, and hidden files. Back up files that will be merged; preserve unrelated changes and branch state.
-3. Compare every destination collision, including `AGENTS.md`, `CLAUDE.md`, `.gitignore`, `.agents/`, `docs/`, `scripts/`, `tests/`, and `package-files.json`. Copy missing files only. Merge applicable rules and catalogs; do not replace project facts with `UNSET` templates. Merge ignore rules rather than hiding existing tracked source.
+3. Compare every destination collision, including `AGENTS.md`, `CLAUDE.md`, `.gitattributes`, `.gitignore`, `.agents/`, `docs/`, `scripts/`, `tests/`, and `package-files.json`. Copy missing files only. Merge applicable rules and catalogs; do not replace project facts with `UNSET` templates. Merge ignore rules rather than hiding existing tracked source.
 4. Preserve existing tool configuration. Merge adapters below only for tools you use; do not overwrite settings or existing instruction imports.
 5. Review the resulting diff (or compare against backups without Git), then use the Bootstrap Prompt.
 
@@ -37,7 +43,7 @@ Do not create adapters for tools you do not use. The included `CLAUDE.md` is a p
 
 1. Start a new session at project root. Use the tool's context/instruction inspector, when available, to confirm root instructions loaded. For Claude Code, check `/context` for `CLAUDE.md`.
 2. Ask which project instructions loaded and which rule applies to a one-line auth fix. Expected: highest applicable risk, not low-risk fast path. An answer alone does not prove automatic loading; check tool context when possible.
-3. Inspect available skills. Confirm the five bundled names (doc-lookup, spec-feature, converge-check, compound, bump-version) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
+3. Inspect available skills. Confirm the seven bundled names (setup-project, workflow-doctor, doc-lookup, spec-feature, converge-check, compound, bump-version) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
 4. Record tool version, setup route, and observed result in `.agents/docs/PROJECT.md`. Mark unchecked tools unverified; repeat after tool/config changes.
 
 Official references: [Codex repository workflows](https://developers.openai.com/blog/skills-agents-sdk), [Claude instructions](https://code.claude.com/docs/en/memory), [Claude skills](https://code.claude.com/docs/en/skills), [Aider conventions](https://aider.chat/docs/usage/conventions.html).
@@ -58,9 +64,12 @@ Adopt this lightweight workflow for this project:
 
 ```text
 project-root/
+├── README.md                     # Overview, quickstart, and repo entry point
+├── LICENSE                       # MIT License
 ├── AGENTS.md                     # Shared policy, safety, verification
 ├── CLAUDE.md                     # Claude Code import adapter
 ├── START-HERE.md                 # Safe adoption and tool setup
+├── .gitattributes                # Portable LF text checkouts
 ├── .gitignore                    # Scratch, archives, local secrets
 ├── package-files.json            # Explicit starter distribution manifest
 ├── scripts/                      # Portable validator and safe packager
@@ -92,13 +101,18 @@ project-root/
 
 Python 3.10+ standard library only; no packages to install. These validate this starter, not an adopted application's behavior. Preserve or adapt paths when merging into a project with existing scripts/tests.
 
+Text files use UTF-8 and LF. The distributed `.gitattributes` keeps Git text checkouts at LF even when `core.autocrlf=true`; binary files remain auto-detected. Keep fixture writes explicit about UTF-8 and `newline="\n"` on Windows. An existing checkout is not rewritten merely by adding attributes: preserve local changes, normalize affected text to LF, and rerun validation. Do not change global Git settings or overwrite an adopted project's line-ending policy without reviewing collisions.
+
 From starter root:
 
 ```powershell
 python scripts/validate.py
 python -m unittest discover -s tests -p 'test_*.py' -v
 python scripts/package.py --output artifacts/workflow-starter.zip
+python scripts/stage_project.py --target C:\path\to\project
 ```
+
+The staging command is preview-only unless `--apply` is supplied. It exports a validated core profile without runnable examples; extracted plugin bundles use the same profile.
 
 Stop on any nonzero exit. Packaging refuses an existing destination; choose a new name instead of deleting an old release. Includes `.gitignore`, scripts, tests, and manifest; excludes session-specific tasks, `.git/`, backups, and local scratch. `package-files.json` describes the starter distribution, not an arbitrary application's release contents.
 

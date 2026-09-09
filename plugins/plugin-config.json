@@ -4,10 +4,10 @@
   "displayName": "Workflow Starter",
   "description": "Handover-first coding workflow: scoped planning, current docs, evidence-backed verification, and durable learnings.",
   "defaultPrompts": [
-    "Plan this feature without duplicating approved requirements.",
+    "Use setup-project to preview fresh, existing, or migration adoption; use workflow-doctor for diagnosis.",
     "Verify this task against current evidence and integration state.",
     "Capture durable learnings without duplicating project knowledge."
   ],
-  "skills": ["doc-lookup", "spec-feature", "converge-check", "compound", "bump-version"],
+  "skills": ["setup-project", "workflow-doctor", "doc-lookup", "spec-feature", "converge-check", "compound", "bump-version"],
   "sourcesChecked": "2026-09-09"
 }

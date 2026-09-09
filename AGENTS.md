@@ -26,6 +26,8 @@
 - Update affected current behavior docs and architecture before closure. Preserve decisions and next action, not chat transcripts; see [handover](docs/HANDOVER.md).
 
 ## Local Skills
+- [setup-project](.agents/skills/setup-project/SKILL.md): guided adoption and migration.
+- [workflow-doctor](.agents/skills/workflow-doctor/SKILL.md): read-only setup diagnosis.
 - [doc-lookup](.agents/skills/doc-lookup/SKILL.md): targeted documentation lookup.
 - [spec-feature](.agents/skills/spec-feature/SKILL.md): unresolved product scope.
 - [converge-check](.agents/skills/converge-check/SKILL.md): acceptance verification.
