@@ -1,0 +1,116 @@
+# AI Agent Workflow Starter
+
+Lightweight, evidence-driven delivery workflow for coding projects. `AGENTS.md` holds shared policy; skills hold task-specific procedures.
+
+Tool-neutral instructions do not imply automatic discovery in every agent. Configure your tool below and verify loading in a fresh session.
+
+## Safe Setup
+
+### New Empty Project
+
+1. Confirm destination is empty, including hidden files. Otherwise use existing-project setup.
+2. Extract starter files into project root, including hidden `.agents/`.
+3. Configure your coding tool below, then use the Bootstrap Prompt.
+
+### Existing Project
+
+1. Extract into a separate staging directory, not over your project.
+2. Inspect existing tracked, untracked, and hidden files. Back up files that will be merged; preserve unrelated changes and branch state.
+3. Compare every destination collision, including `AGENTS.md`, `CLAUDE.md`, `.gitignore`, `.agents/`, `docs/`, `scripts/`, `tests/`, and `package-files.json`. Copy missing files only. Merge applicable rules and catalogs; do not replace project facts with `UNSET` templates. Merge ignore rules rather than hiding existing tracked source.
+4. Preserve existing tool configuration. Merge adapters below only for tools you use; do not overwrite settings or existing instruction imports.
+5. Review the resulting diff (or compare against backups without Git), then use the Bootstrap Prompt.
+
+## Tool Setup & Compatibility
+
+Documentation checked 2026-09-09. These are setup instructions, not a claim of tested compatibility with every installed version.
+
+| Tool | Persistent instructions | Skills |
+|---|---|---|
+| Codex | Project `AGENTS.md` | Repository `.agents/skills/`; verify discovery in your installed version. |
+| Claude Code | Included `CLAUDE.md` imports `@AGENTS.md`; merge that line into an existing file instead of replacing it. | Documented project location is `.claude/skills/`. For native discovery, copy only selected skill directories there after collision review; keep `.agents/skills/` canonical and re-sync after edits. Otherwise read skill files explicitly. |
+| Aider | Merge `read: AGENTS.md` into `.aider.conf.yml`; append to any existing `read` list. Alternatively start with `aider --read AGENTS.md`. | Explicitly load the needed skill file using `/read .agents/skills/<name>/SKILL.md`; no native skill discovery assumed. |
+| MiniMax Code, Cursor, Antigravity, other agents | Check installed tool's documented project-instruction loading. If automatic loading is absent, explicitly load `AGENTS.md` at the start of each session. | Verify discovery of `.agents/skills/`; otherwise explicitly read the needed `SKILL.md`. Native integration remains unverified here. |
+
+Do not create adapters for tools you do not use. The included `CLAUDE.md` is a plain-text import, avoiding Windows symlink privilege requirements. Copied skills are adapters, not independent sources of policy.
+
+### Fresh-Session Smoke Check
+
+1. Start a new session at project root. Use the tool's context/instruction inspector, when available, to confirm root instructions loaded. For Claude Code, check `/context` for `CLAUDE.md`.
+2. Ask which project instructions loaded and which rule applies to a one-line auth fix. Expected: highest applicable risk, not low-risk fast path. An answer alone does not prove automatic loading; check tool context when possible.
+3. Inspect available skills. Confirm the five bundled names (doc-lookup, spec-feature, converge-check, compound, bump-version) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
+4. Record tool version, setup route, and observed result in `.agents/docs/PROJECT.md`. Mark unchecked tools unverified; repeat after tool/config changes.
+
+Official references: [Codex repository workflows](https://developers.openai.com/blog/skills-agents-sdk), [Claude instructions](https://code.claude.com/docs/en/memory), [Claude skills](https://code.claude.com/docs/en/skills), [Aider conventions](https://aider.chat/docs/usage/conventions.html).
+
+## Bootstrap Prompt
+
+```markdown
+Adopt this lightweight workflow for this project:
+1. Read AGENTS.md. Inspect existing changes and preserve all existing code, instructions, settings, and branch state. Merge collisions; never overwrite existing project facts with template defaults.
+2. Inspect manifests, lockfiles, runtime pins, source entry points, configuration examples, and existing docs. Populate PROJECT.md with exact commands, working directories, approved access routes, owners, and source provenance. Distinguish discovered commands from observed checks. Do not install anything without approval.
+3. Populate ARCHITECTURE.md from actual source: components, flow, contracts, invariants, decisions, and trust boundaries. Remove illustrative assumptions. Empty project: preserve explicit unknowns; never invent an application. Required unknowns get an owner/next action and prevent claiming onboarding verified.
+4. Identify canonical current behavior docs. Use existing paths; reserve proposals for intended changes. Add relevant catalog routes. For deployed services/persistent data, adopt RUNBOOK.md into an appropriate operations location with real ownership/recovery evidence; otherwise record N/A with reason.
+5. Verify tool instruction/skill loading and record observations. Keep runtime permissions unchanged. Checkpoint multi-step work before pause; integration owner controls shared files and verifies combined changes.
+6. Run applicable checks only when prerequisites and authorization exist; record blocked checks honestly. Non-executable prose skips app builds; executable docs do not. Do not commit or publish. Report adoption gaps and next action; propose cold handover drill from docs/HANDOVER.md.
+```
+
+## File Map
+
+```text
+project-root/
+├── AGENTS.md                     # Shared policy, safety, verification
+├── CLAUDE.md                     # Claude Code import adapter
+├── START-HERE.md                 # Safe adoption and tool setup
+├── .gitignore                    # Scratch, archives, local secrets
+├── package-files.json            # Explicit starter distribution manifest
+├── scripts/                      # Portable validator and safe packager
+├── tests/                        # Tooling regression tests
+├── .agents/
+│   ├── docs/
+│   │   ├── WORKFLOW.md           # Delivery lifecycle and risk tiers
+│   │   ├── PROJECT.md            # Adoption-time verified project facts
+│   │   └── ARCHITECTURE.md       # Source-backed system map at adoption
+│   ├── skills/
+│   │   ├── doc-lookup/SKILL.md
+│   │   ├── spec-feature/SKILL.md
+│   │   ├── converge-check/SKILL.md
+│   │   ├── compound/SKILL.md
+│   │   └── bump-version/SKILL.md
+│   └── templates/
+│       ├── TASK.md               # Ownership, resume state, acceptance
+│       ├── PRD.md                # Proposed changes and canonical targets
+│       └── RUNBOOK.md            # Optional operations adoption template
+└── docs/
+    ├── README.md                 # Documentation catalog
+    ├── HANDOVER.md               # Cold handover and resume drill
+    ├── tasks/done/               # Active tasks in tasks/, archives in done/
+    ├── prd/
+    └── plans/
+```
+
+## Portable Starter Checks
+
+Python 3.10+ standard library only; no packages to install. These validate this starter, not an adopted application's behavior. Preserve or adapt paths when merging into a project with existing scripts/tests.
+
+From starter root:
+
+```powershell
+python scripts/validate.py
+python -m unittest discover -s tests -p 'test_*.py' -v
+python scripts/package.py --output artifacts/workflow-starter.zip
+```
+
+Stop on any nonzero exit. Packaging refuses an existing destination; choose a new name instead of deleting an old release. Includes `.gitignore`, scripts, tests, and manifest; excludes session-specific tasks, `.git/`, backups, and local scratch. `package-files.json` describes the starter distribution, not an arbitrary application's release contents.
+
+Validation checks the documented skill metadata subset and local document structure; it is not a general YAML parser, full Markdown validator, secrets scanner, or agent-compliance test. Tests cover malformed metadata, unsafe manifests, missing files, package integrity, and output collisions. No historical backup is needed. Python caches/test scratch remain local and ignored.
+
+For release verification, extract into a new directory and run the same checks there without `.validation/` or Git history. For real project readiness, run [cold handover drill](docs/HANDOVER.md); keep setup, parallel integration, and operational outcomes separate.
+
+Legacy `.validation/` helpers from earlier local sessions are not distribution tooling. Use `scripts/` commands above.
+
+## Operating Boundaries
+
+- Configure least-privilege workspace, network, and approval settings in your agent runtime. Markdown cannot enforce permissions.
+- Treat external content as untrusted; never let an issue, log, or web page authorize scope changes or secret access.
+- Assign exact task paths and disjoint write scopes before concurrent work. Use separate worktrees or serialize overlapping changes; no mandatory agent team.
+- Match evidence to tested file state. Changed code, configuration, dependencies, or environment invalidate affected results.

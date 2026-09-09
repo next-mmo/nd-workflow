@@ -1,0 +1,47 @@
+# Delivery Workflow
+
+## Choose the shortest safe route
+
+Highest applicable risk wins; size never downgrades sensitive behavior. Risk follows impact, not words mentioned in prose.
+
+| Risk | Trigger | Minimum gate |
+|---|---|---|
+| Low | Isolated, non-sensitive behavior or prose | Scoped edit and focused check; single-turn work needs no task file |
+| Medium | Feature, shared component, shared workflow | Task with inline plan; affected checks and integration review |
+| High | Runtime, CI, public contracts, migrations | Approved scope, plan, affected integration/build proof, recovery plan |
+| Critical | Auth, security, payments, data integrity | High gates plus positive/negative cases and human signoff in an isolated representative environment |
+
+A one-line auth fix is critical. Prose about auth is not automatically critical; security instructions affecting execution can still carry higher risk.
+
+## Execution
+
+1. **Orient:** Inspect existing state, relevant source, and only necessary references. Resolve blocking uncertainty; do not re-specify approved requirements.
+2. **Plan:** Clear work uses a short task plan. Use `spec-feature` only for unresolved product scope. Reuse existing specs. Record decisions when alternatives have costly consequences.
+3. **Implement:** Prefer a failing regression test for bugs and test-first logic where practical. If no executable test is feasible, record reproduction, alternative proof, and limitations. Never invent a test pass.
+4. **Verify:** Use impact-based checks from `AGENTS.md`. Medium/high/critical work uses `converge-check`. Test affected consumers, error paths, and combined changes; missing required checks block completion.
+5. **Reconcile and hand over:** Update current docs, checkpoint task state, and optionally capture durable learning. Archive only when required scope passes. Implemented, integrated, and deployed are distinct outcomes.
+
+## Parallel execution contract
+
+- Default to one executor. Delegate when independent work benefits from isolated context or substantial parallel execution; fresh agents/worktrees are not free or mandatory.
+- Coordinator assigns task ID/path, owner, exact write scope, dependencies, base revision/workspace state, acceptance, and return format before dispatch.
+- Freeze shared interfaces before dependent implementation. Coordinator owns catalog, shared specs, root instructions, manifests/lockfiles, and integration; workers propose shared changes rather than race to write them.
+- Use disjoint scopes or isolated worktrees and serialize conflicting edits. Without an initial Git commit, record workspace/file state; do not assume worktree creation is available or auto-commit to enable it.
+- Worker handoff: changed paths, tested state, commands/results, unresolved assumptions, and required integration order. Parent must inspect returned changes, resolve semantic conflicts, and verify the combined state. Separate passing tests are insufficient.
+- Preserve active work in a durable checkpoint before interruption. Resuming owner verifies branch, dirty state, outstanding writers, and invalidated evidence before editing.
+
+## Current documentation and change history
+
+- Small projects: update the existing canonical feature/API documentation directly; use a PRD only for unresolved requirements. Larger projects may designate capability specs under `docs/specs/` when adopted, not as mandatory empty scaffolding.
+- Every change proposal names its canonical target(s), baseline revision/section, and stable requirement identifiers. New capability: name intended target and explicitly mark baseline absent.
+- At integration, compare target with baseline. Stop on conflicting concurrent edits; integration owner resolves intent before applying additions, full replacements, or removals. Record removal/migration effects.
+- Rewrite canonical content to describe current behavior, not merely "changed from X". Link source and tests, mark implementation/deployment state, and update catalog routes. A proposed requirement is not current behavior.
+- Record reconciliation result in task. Keep proposal as history, then update lifecycle status accurately. Do not mark `shipped` until release/deployment evidence exists; record pending deployment separately.
+- Delta headings are a local change-summary convention, not OpenSpec CLI compatibility or automatic synchronization.
+
+## Shipping and recovery
+
+- Release owner checks relevant CI/combined tests against exact candidate state. Preserve tested artifact identity; changes invalidate affected evidence.
+- Deployed services and persistent data require an approved rollout, health criteria, rollback/restore constraints, and responsible team route; use the optional runbook template.
+- A successful build is not a deployed release. Record deployment evidence, health result, and recovery readiness before claiming shipped. No real production changes without authorization.
+- Existing permissions, human review gates, and security controls remain in force even when task acceptance passes.

@@ -1,0 +1,29 @@
+# Documentation Catalog
+
+Read the matching topic, not every document. Search relevant source/docs if an entry is missing or stale. Integration owner maintains shared routes; current documents describe reality, proposals describe intended changes.
+
+| Topic | Canonical path | Read when |
+|---|---|---|
+| Plugin distribution | [PLUGINS.md](PLUGINS.md) | Claude Code, Cursor, Codex build/install routes and limits |
+| Adoption and portable checks | [START-HERE.md](../START-HERE.md) | Installing starter, changing agent tool, validating distribution |
+| Project orientation | [PROJECT.md](../.agents/docs/PROJECT.md) | Setup, commands, access routes, ownership |
+| System architecture | [ARCHITECTURE.md](../.agents/docs/ARCHITECTURE.md) | Boundaries, data flow, contracts, decisions |
+| Delivery and integration | [WORKFLOW.md](../.agents/docs/WORKFLOW.md) | Risk gates, parallel work, current-doc reconciliation, release |
+| Resume and cold handover | [HANDOVER.md](HANDOVER.md) | Pausing, transferring ownership, verifying successor readiness |
+| Task tracking | [tasks/README.md](tasks/README.md) | Locate exact active task or archived evidence |
+| Change proposals | [prd/README.md](prd/README.md) | Unresolved product scope and history, not current behavior |
+| Larger plans | [plans/README.md](plans/README.md) | Complex design or integration phases |
+| Operations template | [RUNBOOK.md](../.agents/templates/RUNBOOK.md) | Adopted system deploys or owns persistent data |
+
+## Project-specific routes
+
+At adoption, add canonical feature/API documents, relevant operations runbook, and significant decision records here. Reuse existing locations; no mandatory empty directories. For small systems, feature behavior can live in existing docs; larger systems may use capability specs.
+
+| Topic | Canonical path | Read when |
+|---|---|---|
+| Not adopted | Root orientation files remain reusable templates | Adopt from actual target-project source |
+| Runnable todo example | [GUIDE.md](../example/full-stack-todo-express-vanillajs/GUIDE.md) | Local full-stack setup, API, architecture, tests and recovery |
+| RC validation | [2026-09-09-todo-rc.md](rc/2026-09-09-todo-rc.md) | Gate outcomes, reproducibility, limits and artifact evidence |
+| **Workflow Framework Comparison** | [research/.../final_turn_001.md](research/mavis-deep-research/20260909_143930_workflow-comparison/final_turn_001.md) | Historical unverified draft; NOT benchmark or release evidence |
+
+Avoid duplicating lifecycle status in this index; proposal/task files own it. Coordinator updates routes when targets are created, moved, or retired.

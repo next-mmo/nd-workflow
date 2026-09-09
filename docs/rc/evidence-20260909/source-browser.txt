@@ -1,0 +1,17 @@
+
+> workflow-todo-example@0.0.0 test:e2e
+> playwright test
+
+
+Running 8 tests using 1 worker
+
+  ok 1 [chromium] › e2e\todo.spec.js:19:1 › keyboard CRUD, filters, and reload persist correctly (1.1s)
+  ok 2 [chromium] › e2e\todo.spec.js:39:1 › HTML-like titles remain text, not executable DOM (355ms)
+  ok 3 [chromium] › e2e\todo.spec.js:46:1 › load failure has retry; failed create preserves input and avoids phantom item (868ms)
+  ok 4 [chromium] › e2e\todo.spec.js:59:1 › failed toggle and delete preserve displayed state; whitespace rejected (1.0s)
+  ok 5 [mobile-chromium] › e2e\todo.spec.js:19:1 › keyboard CRUD, filters, and reload persist correctly (1.1s)
+  ok 6 [mobile-chromium] › e2e\todo.spec.js:39:1 › HTML-like titles remain text, not executable DOM (470ms)
+  ok 7 [mobile-chromium] › e2e\todo.spec.js:46:1 › load failure has retry; failed create preserves input and avoids phantom item (529ms)
+  ok 8 [mobile-chromium] › e2e\todo.spec.js:59:1 › failed toggle and delete preserve displayed state; whitespace rejected (571ms)
+
+  8 passed (9.0s)
