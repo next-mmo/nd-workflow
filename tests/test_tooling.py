@@ -57,6 +57,7 @@ FIXTURE_REQUIRED = [
     ".agents/skills/setup-project/SKILL.md",
     ".agents/skills/setup-project/references/superpowers.md",
     ".agents/skills/workflow-doctor/SKILL.md",
+    ".agents/templates/PLAN.md",
     ".agents/templates/PRD.md",
     ".agents/templates/RUNBOOK.md",
     ".agents/templates/TASK.md",

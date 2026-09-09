@@ -89,6 +89,7 @@ project-root/
 │   └── templates/
 │       ├── TASK.md               # Ownership, resume state, acceptance
 │       ├── PRD.md                # Proposed changes and canonical targets
+│       ├── PLAN.md               # Multi-phase architectural plan template
 │       └── RUNBOOK.md            # Optional operations adoption template
 └── docs/
     ├── README.md                 # Documentation catalog

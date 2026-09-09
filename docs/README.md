@@ -14,6 +14,7 @@ Read the matching topic, not every document. Search relevant source/docs if an e
 | Task tracking | [tasks/README.md](tasks/README.md) | Locate exact active task or archived evidence |
 | Change proposals | [prd/README.md](prd/README.md) | Unresolved product scope and history, not current behavior |
 | Larger plans | [plans/README.md](plans/README.md) | Complex design or integration phases |
+| Plan template | [PLAN.md](../.agents/templates/PLAN.md) | Multi-phase architectural transitions or refactoring |
 | Operations template | [RUNBOOK.md](../.agents/templates/RUNBOOK.md) | Adopted system deploys or owns persistent data |
 
 ## Project-specific routes

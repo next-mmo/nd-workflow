@@ -20,6 +20,7 @@
     ".agents/skills/doc-lookup/SKILL.md",
     ".agents/skills/spec-feature/SKILL.md",
     ".agents/skills/task-status/SKILL.md",
+    ".agents/templates/PLAN.md",
     ".agents/templates/PRD.md",
     ".agents/templates/RUNBOOK.md",
     ".agents/templates/TASK.md",

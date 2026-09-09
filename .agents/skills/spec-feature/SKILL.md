@@ -33,6 +33,7 @@ Verify saved paths, present the draft and unresolved decisions. Stop after prese
 
 ### Step 3: Approve and assign
 Only an explicit user decision approving the presented scope changes the proposal to `approved`; silence, ambiguous continuation or an agent-written status is insufficient. Record approver, date, exact scope/version, decision evidence and exclusions in the PRD approval record.
+When approved work spans multiple architectural phases or decoupled components, draft an implementation plan in `docs/plans/` using `.agents/templates/PLAN.md`. For routine multi-step work, inline plans in task files suffice.
 After approval, create the implementation task breakdown with `.agents/templates/TASK.md`, exact ownership, dependencies, write scope, and integration order. Scope approval alone does not authorize execution; wait for an explicit implementation request. One explicit instruction approving the identified draft and starting its implementation can satisfy both records, subject to risk/safety gates. Workers return proposed catalog/shared-doc edits to coordinator.
 Material scope changes return affected approval to pending; save the changed draft and obtain renewed approval before affected implementation. On resume, verify approval and execution evidence before taking a saved next action. Clear direct fixes outside this spec-only route retain `AGENTS.md` shortcuts.
 

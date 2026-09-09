@@ -1,6 +1,6 @@
 # Implementation Plans
 
-This directory stores implementation plans for multi-step features, refactoring, or architectural transitions.
+This directory stores implementation plans for multi-step features, refactoring, or architectural transitions. Use [plan template](../../.agents/templates/PLAN.md) when drafting new plans.
 
 ## Plan Structure
 
