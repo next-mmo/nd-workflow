@@ -33,7 +33,7 @@
 ## Phase 4: Integration with doctor and lookup skill
 - [x] nd-doc-lookup skill routes to `nd context locate` first and `nd context check` for task state; limits section states the index is routing metadata, never approval.
 - [x] workflow_doctor reports `context_health` as a separate section: checkpoint completeness, active/ambiguous tasks, cache + freshness, missing anchors, host loading UNVERIFIED; narrow error handling leaves `UNAVAILABLE` with a reason.
-- [x] Token footprint: `nd context check` default summary stays under the 500-token budget (measured ~300 tokens on this repo via the built-in character heuristic); outputs print an explicit footprint line and never silently truncate.
+- [x] Token footprint: `nd context check` default summary stays under the 500-token budget (measured 388 estimated tokens = 1549 characters on this repo via the built-in character heuristic; heuristic only, not model usage); outputs print an explicit footprint line and never silently truncate.
 - [x] Acceptance met: doctor runs with context checks (context_health READY on this repo); skill routes verified in fixtures via the new test suites.
 
 ## Phase 5: Same-folder handover test suite
@@ -47,7 +47,7 @@
 - [x] Updated with implemented routes: docs/README.md (resume row), docs/HANDOVER.md (Automated resume checks), docs/tasks/README.md (checkpoint audit note), README.md Quickstart (context/index commands), .gitignore (/.nd-cache/).
 - [x] package-files.json includes scripts/context_index.py, tests/test_context_index.py, tests/test_nd_context.py; manifest total 91 files (tests/test_handover_suite.py included as the simulation harness).
 - [x] Full regression recorded below.
-- [ ] Deliver completion record; PRD-0003 promoted to `in-progress` (not `shipped`: commit/push is not yet authorized).
+- [x] Deliver completion record; PRD-0003 promoted to `in-progress` (not `shipped`: no tag or release). Implementation committed on `main` and the branch pushed to `origin/main` on 2026-09-11 on explicit user instruction.
 
 ## Delivery record
 - Date / owner: 2026-09-11, root session mvs_3ff09dcbef3243c5bdd515853158a204 (implementation), with concurrent-writer reconciliation described in docs/tasks/wip-0007-portable-context-implementation.md.
@@ -55,6 +55,6 @@
   - `python scripts/validate.py` — PASS: 0 errors across manifest_paths, hard_required, agents_word_count (448/450), utf8_links (42 files, 94 links, 46 fences), skill_frontmatter; 91 files in the manifest.
   - `python -m unittest discover -s tests -q` — PASS: 166 tests, exit 0 (includes 19 context-index unit tests, 9 CLI tests, the handover simulation harness and the pre-existing suite).
   - `python scripts/package.py --output artifacts/nd-workflow-portable-context-20260911.zip` — PASS: 91 entries, 201880 bytes, sha256 14ef2d4bbf5641d379ed649aa186fa15d629e95476f03a9243c61663043be13b, allowlist match and byte-identical sources verified.
-- Real handover evidence: `.validation/handover-drill/runs/` (Codex transcripts) plus the MiniMax Code drill reports recorded in the checkpoint.
-- Not done / not claimed: PC-008 reproducible benchmark (fixed questions, recall@k/MRR@k, cross-host comparison) — not run; Claude Code and Cursor handovers — blocked; no commit, tag, push or publish performed.
+- Real handover evidence: local, ignored `.validation/handover-drill/runs/` — five Codex CLI transcripts plus recorded MiniMax Code fresh-session reports (`minimax-stale-rep1.md`, `minimax-draft-rep1.md`, `minimax-conflict-rep1.md`). Ignored scratch is not part of the repository; the drill verdicts and limits above are the durable record.
+- Not done / not claimed: PC-008 reproducible benchmark (fixed questions, recall@k/MRR@k, cross-host comparison) — not run; Claude Code and Cursor handovers — blocked; no tag, release or publish performed. Commits: implementation committed on `main` (2026-09-11) and pushed to `origin/main` on explicit user instruction; example and benchmark updates follow in a second commit.
 - Collision note: sessions mvs_448dca7eb404481d83851b9e2888d65b and mvs_67379bae12584491b1d0e44f2cc41b3c wrote to the same files during implementation. This record keeps only claims that were verified; the earlier "18 handovers across the 6 directions passed" wording was corrected to describe the local simulation harness.

@@ -5,7 +5,7 @@
 - Outcome: an agent in a fresh session finds exact active task, approved scope, owner, blockers, next action and source-backed evidence without replaying completed work; lookup is bounded, freshness-aware and never serves stale cache as current.
 - Approved requirement/version: docs/prd/prd-0003-portable-context-and-doc-index.md, v0.2, PC-001 through PC-010.
 - Scope approval evidence / approver / date: user approved v0.2 scope (PC-001–PC-010) 2026-09-11 via questionnaire ask_805260986ad34321c514253f; implementation was gated on a separate start instruction, now given.
-- Execution authorization: user start instruction "ship approved portable-context" (2026-09-11) in root session mvs_3ff09dcbef3243c5bdd515853158a204. Authorized write scope: implementation files below plus named docs. No host settings changes, no installs, no commits/pushes without separate authorization.
+- Execution authorization: user start instruction "ship approved portable-context" (2026-09-11) in root session mvs_3ff09dcbef3243c5bdd515853158a204, followed by explicit commit approval and then push approval ("let push code current branch"). Authorized write scope: implementation files below plus named docs. No host settings changes, no installs.
 - In scope: derived cache schema + parser + freshness engine; `nd context check`, `nd context locate`, `nd index build|check`; workflow_doctor context health; nd-doc-lookup routing update; docs reconciliation; same-folder handover drills on available hosts.
 - Non-goals: graph database, embeddings, model calls, daemon, cross-machine sync, auto-archiving, history rewrites, host global config.
 - Risk: high (shared retrieval/instruction boundary). Gates: no stale result labeled current; cache writes atomic; history excluded by default; missing host access stays BLOCKED, never simulated.
@@ -30,10 +30,10 @@
 - Updated: 2026-09-11, root mvs_3ff09dcbef3243c5bdd515853158a204.
 - Concurrent-writer record: session mvs_67379bae12584491b1d0e44f2cc41b3c ("let finish all tasks now") wrote to this same tree (tests/test_nd_cli.py, tests/test_handover_suite.py, this file) while implementation was in flight; session mvs_448dca7eb404481d83851b9e2888d65b ("pull") had earlier edited the same files and is aborted. All three contributed to this file's current state; the claim "18 handovers across 6 directions passed" was corrected because those 18 iterations are a local simulation, not host sessions. Do not resume the other sessions on this task; one writer only.
 - Completed: engine, CLI, tests, doctor, skills, docs, manifest, baseline regression, handover drills on available hosts.
-- Exact next action: user review; commit/push requires separate explicit authorization.
+- Exact next action: none for the approved scope — implementation is committed on `main` and pushed. Optional follow-ups: Claude Code / Cursor handovers once usable, PC-008 benchmark, multi-process locking for the CLI.
 - Decision needed: commit/push authorization, and whether to replace the simulated harness with real sessions for Claude Code and Cursor once those hosts work.
 - Rejected approaches: embeddings/graph/SQLite (PRD-0004 candidate); serving cache without hash verification; counting simulated handovers as host verification.
-- Current revision/dirty state: main ec5db2a3208e1e02101ca50ca1534992dcf69f7e + dirty tree (pre-existing benchmark/example edits preserved; new implementation files untracked).
+- Current revision/dirty state: implementation committed on `main` (2026-09-11) with the three hardened examples and both benchmark updates in the follow-up commit; unrelated pre-existing dirty work (benchmarks' earlier drafts, other sessions' spec files, example adoptions) intentionally left uncommitted.
 - Evidence: docs/plans/plan-0003-portable-context.md delivery record, .validation/handover-drill/runs/*, tests output.
 
 ## Verification and closure

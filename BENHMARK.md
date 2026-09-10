@@ -17,43 +17,11 @@
 
 **Positioning:** Lightweight on low-risk work, explicit on high-risk work, portable at handover. These are design choices, not exclusive features: the peer frameworks also provide planning, verification and continuity in different forms.
 
-## Estimated fit scores for small teams
+## Score status: 9.7 is a target, not a result
 
-**Editorial estimates, not measured benchmarks.** Scores assess the documented approach for small teams that value setup, planning, verification, continuity and tool compatibility equally. Assessment date: 2026-09-10, using local documents and [S1]–[S4] below. This project-authored assessment is not an independent evaluation; ND's internal evidence is more detailed than the upstream overview material reviewed for peers.
+The earlier 9.5 rating and claims of superior delivery speed/token consumption are withdrawn. No controlled, independent comparison establishes ND as better than Superpowers or Compound Engineering. Replacing that rating with another precise score would repeat the error.
 
-### Scoring rubric
-
-Each dimension is rated out of 10, using five anchor levels (2, 4, 6, 8, 10) to preserve the original judgments without adding false precision: **2** = limited documented fit, **4** = substantial adaptation needed, **6** = usable with notable gaps, **8** = strong documented fit with caveats, **10** = especially strong documented fit for that dimension. Unknown capability must not be treated as absent; these are whole-dimension judgments, not counts of missing features. A 10 does not mean runtime-tested, bug-free, or universally best.
-
-| Dimension | Weight | What earns a stronger fit judgment |
-|---|---:|---|
-| Setup | 20% | Clear installation/adoption path, existing-project guidance, manageable setup burden |
-| Planning | 20% | Actionable plans, explicit requirements, maintained change artifacts |
-| Verification | 20% | Explicit tests/review, completion evidence, handling of failures and risk |
-| Continuity | 20% | Durable state, reusable learning and explicit handoff/recovery guidance |
-| Tool compatibility | 20% | Documented host-specific installation routes and breadth, with maturity limits visible |
-
-**Calculation:** overall fit = sum of the five ratings / 5. This is a rating out of 10, not a success percentage. Equal-weight arithmetic is a decision aid over subjective ordinal judgments, not a scientific measurement. A two-point anchor change in any dimension changes the overall rating by 0.4; small gaps should not decide adoption without a team pilot.
-
-| Framework | Setup /10 | Planning /10 | Verification /10 | Continuity /10 | Tool compatibility /10 | Estimated overall /10 |
-|---|---:|---:|---:|---:|---:|---:|
-| **ND Workflow** | 8 | 8 | 10 | 10 | 6 | **8.4** |
-| Superpowers | 8 | 10 | 10 | 6 | 10 | **8.8** |
-| OpenSpec | 8 | 10 | 6 | 8 | 10 | **8.4** |
-| Compound Engineering | 8 | 10 | 8 | 10 | 10 | **9.2** |
-| GSD Core | 8 | 8 | 8 | 10 | 8 | **8.4** |
-
-### Why these ratings?
-
-| Framework | Rationale across the five dimensions | Important caveat |
-|---|---|---|
-| ND Workflow | Setup 8: reviewed adoption with recovery evidence, but manual reconciliation. Planning 8: pragmatic PRD/tasks rather than a dedicated spec lifecycle. Verification 10: explicit risk tiers, evidence freshness and completion boundaries. Continuity 10: ownership/checkpoints, recovery guidance and knowledge maintenance. Compatibility 6: generated bundles/manual routes with limited native validation. | Highest ratings describe policy detail, not proven agent compliance. Host smoke tests and team outcome measurements remain missing. |
-| Superpowers [S1] | Setup 8: clear per-host installs, with separate setup for each host. Planning 10: approved design plus detailed execution tasks. Verification 10: explicit TDD, staged review and completion checks. Continuity 6: plans/checkpoints documented, but cross-session recovery is less established in the overview reviewed. Compatibility 10: numerous explicit plugin/extension installation routes. | Continuity score reflects the reviewed overview, not proof that richer recovery support is absent. Mandatory workflow can be more process than a small fix needs. |
-| OpenSpec [S2] | Setup 8: CLI init, profiles and existing-project guidance, with CLI setup required. Planning 10: proposal/spec/design/task lifecycle and synchronization. Verification 6: optional expanded verify workflow; testing discipline is not the overview's main focus. Continuity 8: durable changes and archived specs. Compatibility 10: detailed multi-host skills/command adapters. | Spec continuity is not identical to operational handover; verify which additional review/test policy the team needs. |
-| Compound Engineering [S3] | Setup 8: per-host installs plus project setup, with a larger skill catalog to navigate. Planning 10: requirements-to-implementation plan enrichment. Verification 8: review and platform testing skills, but the overview does not establish ND-style risk-tier routing. Continuity 10: reusable solutions, knowledge refresh and handoff. Compatibility 10: numerous explicit native installation routes. | Strongest estimated balanced fit in this rubric, not proof of better delivery. Optional autonomous pipeline has commit/push/PR effects that teams must understand before use. |
-| GSD Core [S4] | Setup 8: installer and existing-project onboarding; runtime conversion requires the installer. Planning 8: research and phase plans emphasize milestone execution. Verification 8: explicit verify-and-fix phase. Continuity 10: persistent state/context and fresh-context execution. Compatibility 8: several named installer targets, with host details less deeply inspected here. | Phase-oriented execution can be a poor match when the team mainly wants a minimal process for isolated changes. |
-
-**Why ND despite a lower overall score than some peers?** A balanced average hides the decision that matters for some teams: they want a short safe path for ordinary work, explicit escalation for sensitive changes, and reviewable handover artifacts without adopting a mandatory full execution methodology. ND makes that policy central. If native plugin breadth or a richer opinionated execution loop matters more, a peer may be the better choice.
+Assess setup safety, context overhead, feature correctness, continuity, and host UX separately. Local file checks and unit tests support only their tested behaviors. A score requires a preregistered rubric, equally configured workflows, pinned versions, independent runs, real model usage, and blinded acceptance checks.
 
 ## Workflow feature tradeoffs
 
@@ -218,3 +186,47 @@ ND test-first is preferred where practical, not universally enforced. Its delta 
 - **[S3]** [Compound Engineering README](https://github.com/EveryInc/compound-engineering-plugin/blob/main/README.md): host installation, core loop, review, learning and handoff.
 - **[S4]** [GSD Core README](https://github.com/open-gsd/gsd-core/blob/main/README.md): installer targets, phase loop and persistent context. The former `gsd-build/get-shit-done` repository redirects to this project.
 
+---
+
+## Rust trial correction
+
+The two Rust Todo directories are smoke-test fixtures, not independent framework executions. Their near-identical backend code was authored sequentially in one session. There is no verified full Superpowers skill execution or isolated ND comparison. Tests were written after implementation; the earlier strict-TDD claim is unsupported.
+
+- Nine authored tests and eight HTTP smoke steps do not establish full UI behavior, restart durability, failure recovery, coverage, or production hardening.
+- The microbenchmark uses in-process requests with persistence disabled, not a concurrent live-server load test. It does not justify attributing throughput variation to workflow quality.
+- Estimated 6/10 minute delivery times were not captured by a controlled timer. The claimed 40% advantage is withdrawn.
+- Competitor token figures (940/650/1200) were constants, not measured inputs. Percentage/session/context-window savings and industry-best claims are withdrawn.
+- File size divided by four is a heuristic, not model token accounting. Host metadata, indexes, imported policy, caches, tool outputs and conversation history matter. Skill files on disk do not prove zero idle context cost.
+- The full doctor reported incomplete adoption and unverified loading. A per-file TOKEN_SAVER label is not full workflow acceptance.
+
+## Hardened example verification (2026-09-11, measured locally)
+
+Three example projects were added under `example/harden-full-nd/` and verified by running their suites on this machine (Windows, Python 3.11.13, Node v24.16.0). These are local verification runs of real example projects, not framework comparisons, and they change no score in this report.
+
+| Example | Stack | Command (from project dir) | Observed result | Hardening focus |
+|---|---|---|---|---|
+| `py-expense-cli` | Python, stdlib only | `python -m unittest discover -s tests` | Ran 26 tests, OK (exit 0) | numeric/non-finite/negative/oversize rejection, length caps, atomic store replace, corrupt-store refusal with non-zero exit, no temp leftovers |
+| `py-logstat` | Python, stdlib only | `python -m unittest discover -s tests` | Ran 26 tests, OK (exit 0) | streaming bounded read, size cap, malformed-line counting, non-UTF8 tolerance, overlong-line truncation, explicit exit codes |
+| `js-md-links` | Node, built-in modules only | `node --test` | tests 19, pass 19, fail 0 (exit 0) | `..`/absolute traversal rejection, skipped trees, per-file size cap, unreadable-file reporting, deterministic ordering, exit codes |
+
+Each project ships `AGENTS.md`, a `CLAUDE.md` `@AGENTS.md` adapter, `.agents/docs/` orientation, a completed task record with observed results, and `HARDENING.md` containing the exact commands, outputs and stated limits. Verification is re-running the suites; no result here is inferred from file presence.
+
+Limits: single machine and OS; the Node project's permission-failure paths are simulated through injected `fs`; the Python projects claim neither multi-process locking nor directory fsync; no competitor framework was installed or run; the derived context index is separate from these examples.
+
+## 9.7 challenge acceptance checklist
+
+
+
+Use pass/fail/unverified for each item; do not average missing evidence into a flattering score. Evidence below was re-checked on 2026-09-11; unticked items stay unticked because the evidence does not exist yet.
+
+- [x] Safe adoption: repeatable preview and reviewed apply, collision preservation, recovery, disabled skill selection, symlink/reparse rejection. Evidence: tests/test_onboarding.py and tests/test_tooling.py exercise preview/apply, journal recovery, collisions and link rejection; full suite green.
+- [x] Slim context: report measured file estimates separately from actual model usage; preserve all safety/risk gates and necessary routing. Evidence: `nd tokens` and `nd context check` print heuristic estimates with explicit limits (`nd context check` measured 387 estimated tokens on this repo); no model-usage claim is made.
+- [x] Honest verification: unknown commands fail closed, command failures propagate, zero-test success is not acceptance. Evidence: tests/test_nd_cli.py asserts fail-closed unknown stacks, propagated failures and UNVERIFIED when no test command exists.
+- [x] Feature/context parity: task scope, owner, decisions, docs/index consumers and next action survive handover; no automatic implementation approval. Evidence: 8 real fresh-session drills passed on the two usable hosts; `nd context check` reports the fields from task files only and never grants approval. Coverage is partial (see below).
+- [x] Distribution parity: documented CLI and launchers included; packaged CLI exercised outside source checkout. Evidence: package built (91 entries, sha256 14ef2d4b...), extracted, and both `scripts/nd.py context check/index build` and `bin/nd.cmd context check/index check` were executed from the extraction.
+- [x] Documentation sync: descriptions match commands, no stale score/token claims, affected links and manifest validated. Evidence: docs updated with the commands; `python scripts/validate.py` PASS (91 manifest files, 0 errors) after the updates.
+- [ ] Repeated testing: focused regressions then full suite, repeated clean fixture runs, and independent review. Partial: focused suites plus the full 166-test suite and repeated fixture runs were executed; independent review is being recorded separately.
+- [ ] Real host UX: fresh-user onboarding and fresh-session discovery in pinned hosts, with observed correction count and time to verified outcome. Partial only: Codex and MiniMax Code fresh sessions verified; Claude Code blocked (401 revoked OAuth) and Cursor blocked (no headless agent entry point); no correction-count or time-to-outcome data collected.
+- [ ] Fair comparison: same task, starting state, model, budget, cache policy and acceptance tests; multiple independent runs per workflow. Not started: no competitor framework was installed or run.
+
+Current local audit evidence is delivered separately. Host UX beyond two hosts, runtime token savings, fair competitor comparison and a 9.7 score remain unverified until those rounds exist.
