@@ -7,6 +7,9 @@
 # Adoption recovery journal (contains private project text)
 .nd-workflow-adoption/
 
+# Derived, disposable context index (rebuild with `nd index build`)
+.nd-cache/
+
 # Generated delivery archives
 /artifacts/
 
@@ -30,6 +33,13 @@ node_modules/
 /example/full-stack-nd-workflow-cms-portfolio/data/
 /example/full-stack-nd-workflow-cms-portfolio/.test-data/
 /example/full-stack-nd-workflow-cms-portfolio/test-results/
+
+# Rust build artifacts and test scratch
+target/
+**/target/
+example/test_axum/
+example/**/data/
+plan.json
 
 # OS metadata
 .DS_Store

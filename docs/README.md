@@ -10,7 +10,7 @@ Read the matching topic, not every document. Search relevant source/docs if an e
 | Project orientation | [PROJECT.md](../.agents/docs/PROJECT.md) | Setup, commands, access routes, ownership |
 | System architecture | [ARCHITECTURE.md](../.agents/docs/ARCHITECTURE.md) | Boundaries, data flow, contracts, decisions |
 | Delivery and integration | [WORKFLOW.md](../.agents/docs/WORKFLOW.md) | Risk gates, parallel work, current-doc reconciliation, release |
-| Resume and cold handover | [HANDOVER.md](HANDOVER.md) | Pausing, transferring ownership, verifying successor readiness |
+| Resume and cold handover | [HANDOVER.md](HANDOVER.md) | Pausing, transferring ownership, verifying successor readiness; `nd context check` and `nd context locate` resume routes |
 | Task tracking | [tasks/README.md](tasks/README.md) | Locate exact active task or archived evidence |
 | QA and developer handoff | [QA contract](../.agents/skills/nd-user-testing/references/qa-handoff.md) | Round events, bug status, task/PRD routing, evidence and retest closure |
 | Project-aware QA | [Project profiles](../.agents/skills/nd-user-testing/references/project-profiles.md) | App/game/CLI/workflow plan initialization and evidence-backed improvement proposals |

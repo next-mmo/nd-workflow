@@ -13,7 +13,7 @@ description: Diagnose ND Workflow adoption and instruction-loading gaps without 
 5. Return prioritized findings with exact evidence paths, safe next action and owner. Repairs require setup-project or a separately scoped reviewed edit; no silent repair, uninstall, hook change, commit or publication.
 
 ## Output contract
-Report four states individually: package available, project adopted, instructions verified, development baseline checked. Include findings, scope not inspected and next action. Script exit 0 means files present, 2 means attention, 1 means diagnosis failed; none means host or application verified.
+Report four states individually: package available, project adopted, instructions verified, development baseline checked. Include findings, scope not inspected and next action. Script exit 0 means files present, 2 means attention, 1 means diagnosis failed; none means host or application verified. The report also carries `context_health` (active checkpoint completeness, ambiguous wip tasks, missing catalog anchors, cache freshness, host loading UNVERIFIED) as a separate section; it never certifies host loading or approval.
 
 ## Failure handling
 Unsafe paths or unreadable metadata stop affected inspection. Preserve incomplete recovery journal and ask affected writers to stop before recovery review. Mark partial coverage instead of claiming healthy. Avoid reading journal backup contents unless recovery is explicitly in scope because they contain prior project text.

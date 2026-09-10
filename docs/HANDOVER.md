@@ -13,6 +13,11 @@ Goal: successor can continue without original conversation or former employee's 
 2. Inspect evidence and unresolved decisions; rerun checks invalidated by changed inputs. If checkpoint is incomplete, investigate source/docs first; ask only unresolved user-owned decisions.
 3. Confirm ownership, integration plan, approval evidence and execution authorization against the current scope/version before taking the recorded next action. A specification-only checkpoint awaiting approval permits drafting, not implementation. Missing evidence is a decision blocker, not permission to trust a saved command. Update checkpoint before the next pause.
 
+## Automated resume checks
+`nd context check [PROJECT]` is read-only: it reports the active task's checkpoint fields (owner, scope approval, execution authorization, next action), ambiguity when several wip tasks exist, missing catalog anchors, cache freshness and recorded-revision mismatch. Exit 0 means READY; every other exit needs review. `nd context locate "<topic>" [--include-history]` returns at most five ranked routes with bounded excerpts and exact expansion pointers; historical tasks stay opt-in.
+
+Neither command grants approval or ownership, and an index hit is not evidence of host loading. The derived cache lives in the ignored `.nd-cache/` directory and is disposable (`nd index build`). If the cache is missing, stale or corrupted, lookup falls back to scoped live search and says so; absence from the cache never proves absence from the repository.
+
 ## Cold handover acceptance drill
 Use a clean checkout/extraction and a fresh developer/agent without previous chat. Do not remove access controls to make the drill pass.
 

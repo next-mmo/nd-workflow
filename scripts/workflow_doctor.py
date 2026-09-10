@@ -211,6 +211,22 @@ def inspect_project(target):
         journal_state = 'COMPLETE_MARKER_PRESENT' if complete.exists() else 'INCOMPLETE_REVIEW_REQUIRED'
 
     has_token_burner = token_efficiency['status'] != 'TOKEN_SAVER'
+    context_health = {'status': 'UNAVAILABLE', 'reason': 'context_index import failed'}
+    try:
+        from context_index import context_check
+        ctx = context_check(target)
+        context_health = {
+            'status': ctx.get('status', 'UNAVAILABLE'),
+            'checkpoint': ctx.get('checkpoint', 'UNKNOWN'),
+            'active_tasks': [item.get('path') for item in ctx.get('active_tasks', [])],
+            'ambiguous': ctx.get('ambiguous', []),
+            'cache': ctx.get('cache', 'UNKNOWN'),
+            'cache_freshness': ctx.get('cache_freshness', 'UNKNOWN'),
+            'missing_anchors': ctx.get('missing_anchors', []),
+            'host_loading': 'UNVERIFIED',
+        }
+    except (OSError, ValueError, ImportError) as error:
+        context_health = {'status': 'UNAVAILABLE', 'reason': str(error)[:200]}
     return {
         'status': 'ATTENTION' if missing or unknowns or findings or superpowers or duplicates or has_token_burner or journal_state == 'INCOMPLETE_REVIEW_REQUIRED' else 'FILES_PRESENT',
         'project': str(target),
@@ -218,6 +234,7 @@ def inspect_project(target):
         'project_adoption': 'INCOMPLETE' if missing or unknowns or findings else 'REQUIRES_SEMANTIC_REVIEW',
         'host_loading': 'UNVERIFIED',
         'application_baseline': 'NOT_RUN',
+        'context_health': context_health,
         'missing': missing,
         'template_unknowns': unknowns,
         'findings': findings,
