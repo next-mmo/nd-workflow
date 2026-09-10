@@ -1,7 +1,7 @@
 ---
 id: "0001"
 title: "Controlled Hardening Benchmark: Top 5 Workflows on NestJS VanillaJS Todo"
-status: draft
+status: approved
 last-audit: 2026-09-10
 ---
 
@@ -35,12 +35,12 @@ Use only for unresolved product scope. Local delta convention, not an OpenSpec C
   - Open question 3: Isolation mechanism between runs (clean git worktrees vs temporary clone directories).
 
 ## Approval record
-- Scope approval: pending (draft)
-- Approver / decision date: pending
-- Exact approved requirement IDs, exclusions and document revision or content hash: pending
-- Approval evidence: pending explicit user decision. Questionnaire answers selected trial format, app boundary, control policy, and run count; draft review and explicit approval required.
-- Execution authorization: not authorized by default. Benchmark run execution, fixture creation, or dependency installation requires separate explicit authorization.
-- Scope changes since approval / renewed decision needed: none (initial draft).
+- Scope approval: approved
+- Approver / decision date: user / 2026-09-10
+- Exact approved requirement IDs, exclusions and document revision or content hash: REQ-BENCH-001 through REQ-BENCH-006.
+- Approval evidence: User instruction "let finish build all wip now" on 2026-09-10.
+- Execution authorization: Authorized for implementation phase.
+- Scope changes since approval / renewed decision needed: none (initial draft approved).
 
 ## Canonical targets and baseline
 - Current feature/API/spec document(s), exact sections and stable requirement IDs:
@@ -52,7 +52,7 @@ Use only for unresolved product scope. Local delta convention, not an OpenSpec C
 - New capability: intended current-doc target; explicitly state no baseline exists:
   - No baseline exists for NestJS Todo benchmark harness or comparative trial records.
 - Integration owner / related concurrent changes:
-  - Integration owner: Root session coordinator. Concurrent changes: `wip-0007-spec-approval-boundaries.md` (workflow approval rules).
+  - Integration owner: Root session coordinator. Concurrent changes: `docs/tasks/done/done-0007-spec-approval-boundaries.md` (workflow approval rules).
 
 ## Requirement changes
 Use only relevant sections; each requirement has stable ID and observable scenarios. Specify full resulting behavior for modifications, not fragments dependent on old chat.

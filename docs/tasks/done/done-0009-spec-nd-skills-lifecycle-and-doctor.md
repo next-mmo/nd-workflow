@@ -14,7 +14,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
 - Risk and required gates: Medium risk. Requires passing test suite (tooling, plugins, onboarding), validate.py, and deterministic build artifacts.
 
 ## Ownership and integration
-- Exact task path (update on rename): `docs/tasks/wip-0009-spec-nd-skills-lifecycle-and-doctor.md`
+- Exact task path (update on rename): `docs/tasks/done/done-0009-spec-nd-skills-lifecycle-and-doctor.md`
 - Owner / team; optional session ID: root maintainer; session `mvs_34ac063e331b48b5800d949e2469969a`.
 - Branch/worktree and base revision (or non-Git/unborn workspace state): `56d1470`.
 - Owned write paths: `docs/prd/prd-0002-nd-skills-ecosystem-doctor-token-and-toggles.md`, `docs/tasks/wip-0009-spec-nd-skills-lifecycle-and-doctor.md`, `scripts/workflow_doctor.py`, `scripts/build_plugins.py`, `plugins/plugin-config.json`, `.agents/skills/`.

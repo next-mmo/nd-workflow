@@ -14,7 +14,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
 - Risk and required gates: Medium risk. Requires explicit PRD scope approval, then separate execution authorization.
 
 ## Ownership and integration
-- Exact task path (update on rename): `docs/tasks/wip-0008-spec-benchmark-top5-nestjs-todo.md`
+- Exact task path (update on rename): `docs/tasks/done/done-0008-spec-benchmark-top5-nestjs-todo.md`
 - Owner / team; optional session ID: root maintainer; session `mvs_ef946ad4edc148d893a096dffb448b42`.
 - Branch/worktree and base revision (or non-Git/unborn workspace state): `a00b26fc0a20abe4029202992629e8369c35667f`.
 - Owned write paths: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md`, `docs/tasks/wip-0008-spec-benchmark-top5-nestjs-todo.md`.
@@ -27,26 +27,26 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
   2. Resolve open questions (target model, defect catalog, worktree isolation).
   3. Stop and await explicit user approval of the specification.
   4. Upon approval, split into concrete implementation tasks (fixture creation, harness configuration, runner execution, metric aggregation).
-- [ ] Draft PRD written following `.agents/templates/PRD.md` with approval record.
-- [ ] Drafting task checkpoint saved following `.agents/templates/TASK.md`.
-- [ ] Implementation explicitly marked not authorized.
+- [x] Draft PRD written following `.agents/templates/PRD.md` with approval record.
+- [x] Drafting task checkpoint saved following `.agents/templates/TASK.md`.
+- [x] Specification reviewed and approved per user instruction.
 - Canonical behavior/architecture targets; baseline and requirement IDs:
   - PRD: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md` (REQ-BENCH-001 through REQ-BENCH-006).
 
 ## Resume State
 - Updated at / author: 2026-09-10 / root maintainer.
 - Completed / partial / not started:
-  - Completed: Requirements collected, draft PRD created, task checkpoint saved.
-  - Not started: Scope approval, implementation tasks, benchmark execution.
-- Exact next action or command and working directory: Present draft to user and await explicit scope approval. Working directory: repository root.
-- Current hypothesis / blockers / decision needed: Awaiting user review and explicit approval of PRD scope and requirements.
+  - Completed: Requirements collected, PRD approved, specification task archived.
+  - Next: Execution and fixture implementation task to be scheduled upon benchmark kickoff.
+- Exact next action or command and working directory: Benchmark fixture creation and execution. Working directory: repository root.
+- Current hypothesis / blockers / decision needed: Specification approved. Ready for implementation phase.
 - Decisions and rejected approaches with reasons:
   - Hardening trial selected over fresh build (fairer comparison, removes scaffolding variance).
   - JSON persistence selected over SQLite (parity with existing example, zero database infrastructure).
   - 3 runs per workflow (15 runs) selected over 1 or 10+ (balances statistical signal vs token budget).
-- Current revision and uncommitted work location/fingerprint: Workspace uncommitted files: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md`, `docs/tasks/wip-0008-spec-benchmark-top5-nestjs-todo.md`.
-- Evidence still valid / invalidated and why: PRD draft matches user questionnaire selections from 2026-09-10.
-- Relevant source, docs, and output paths: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md`, `docs/tasks/wip-0008-spec-benchmark-top5-nestjs-todo.md`.
+- Current revision and uncommitted work location/fingerprint: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md`, `docs/tasks/done/done-0008-spec-benchmark-top5-nestjs-todo.md`.
+- Evidence still valid / invalidated and why: PRD matches user selections and approval.
+- Relevant source, docs, and output paths: `docs/prd/prd-0001-benchmark-top5-nestjs-todo.md`, `docs/tasks/done/done-0008-spec-benchmark-top5-nestjs-todo.md`.
 - Successor ownership transfer / outstanding coordination: none.
 
 ## Verification and closure
@@ -54,7 +54,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
   - Inspection: PRD and task checkpoint files exist on disk, contain valid Markdown and frontmatter.
 - Tested state and relevant environment: Windows PowerShell, node/python standard tooling.
 - Combined-state checks and integration result: Independent files; no merge conflicts with existing codebase.
-- Current-doc reconciliation result / conflicts resolved: N/A for draft phase.
+- Current-doc reconciliation result / conflicts resolved: PRD-0001 approved and registered.
 - Optional durable learning: N/A.
-- Failed / skipped / unverified checks and reasons: Benchmark execution not run; unauthorized.
-- Status: active (drafting mode complete, awaiting scope approval; implementation not authorized).
+- Failed / skipped / unverified checks and reasons: Benchmark execution not run in specification phase.
+- Status: completed (specification phase complete; archived).

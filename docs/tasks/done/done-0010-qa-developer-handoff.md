@@ -8,7 +8,7 @@
 - Risk: medium shared workflow; contract tests, packaging checks and independent scenario review required.
 
 ## Ownership and integration
-- Exact task path: docs/tasks/wip-0010-qa-developer-handoff.md (completed checkpoint retained; archive operation blocked by local path-safety gate).
+- Exact task path: docs/tasks/done/done-0010-qa-developer-handoff.md
 - Owner: root maintainer, session mvs_34ac063e331b48b5800d949e2469969a.
 - Baseline: current dirty workspace from prior nd-* migration and nd-user-testing creation; preserve those changes.
 - Owned paths: .agents/skills/nd-user-testing/, docs/README.md, docs/PLUGINS.md, docs/tasks/README.md, package-files.json, tests/test_user_testing.py, this task.

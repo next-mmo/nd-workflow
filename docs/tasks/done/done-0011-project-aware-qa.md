@@ -8,7 +8,7 @@
 - Risk: medium shared workflow. Preserve prior dirty changes.
 
 ## Ownership and integration
-- Exact task path: docs/tasks/wip-0011-project-aware-qa.md
+- Exact task path: docs/tasks/done/done-0011-project-aware-qa.md
 - Owner: root maintainer / mvs_34ac063e331b48b5800d949e2469969a.
 - Owned paths: .agents/skills/nd-user-testing/, tests/test_user_testing.py, package-files.json, docs/README.md, this task.
 - Dependencies: existing QA handoff and ND TASK/PRD approval rules; no other writers.
