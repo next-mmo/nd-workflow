@@ -1,6 +1,6 @@
 # Task: <Outcome>
 
-Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep this file current before pause, handover, or completion. A session checklist is not a substitute for this durable file. A pre-approval drafting checkpoint is allowed; it authorizes no implementation.
+Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep this file current before pause, handover, or completion. A session checklist is not a substitute for this durable file. A pre-approval drafting checkpoint is allowed; it authorizes no implementation. Promote in place to implementation once approved for single-stream work (do not duplicate file).
 
 ## Goal and scope
 - Mode: specification-only, implementation, or review-only; record the actual request, not an assumed default.
@@ -14,7 +14,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
 ## Ownership and integration
 - Exact task path (update on rename):
 - Owner / team; optional session ID:
-- Branch/worktree and base revision (or non-Git/unborn workspace state):
+- Branch/worktree and base revision (or non-Git/unborn workspace state; repo-relative only, never machine home path):
 - Owned write paths:
 - Dependencies / outstanding workers:
 - Integration owner / shared files / merge order:
@@ -33,7 +33,7 @@ Use for multi-step work; skip for genuinely low-risk single-turn changes. Keep t
 - Decisions and rejected approaches with reasons (link longer records):
 - Current revision and uncommitted work location/fingerprint:
 - Evidence still valid / invalidated and why:
-- Relevant source, docs, and output paths (no secrets or transcript dump):
+- Relevant source, docs, and output paths (repo-relative; no machine user paths, secrets, or transcript dump):
 - Successor ownership transfer / outstanding coordination:
 
 ## Verification and closure

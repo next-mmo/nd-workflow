@@ -6,7 +6,7 @@ Tool-neutral instructions do not imply automatic discovery in every agent. Confi
 
 ## Guided setup (recommended)
 
-Choose **fresh project**, **existing project**, or **migration from Superpowers** in [guided onboarding](docs/ONBOARDING.md). Invoke `setup-project`, or explicitly read `.agents/skills/setup-project/SKILL.md` if discovery is unavailable. Use `workflow-doctor` for read-only diagnosis.
+Choose **fresh project**, **existing project**, or **migration from Superpowers** in [guided onboarding](docs/ONBOARDING.md). Recommended location: clone once into a global user directory (`~/.nd-workflow` or `%USERPROFILE%\.nd-workflow`), or install as an IDE plugin. Run adoption from there with `--target <project>` so project trees stay clean of package metadata. Invoke `nd-setup-project`, or explicitly read `.agents/skills/nd-setup-project/SKILL.md` if discovery is unavailable. Use `nd-workflow-doctor` for read-only diagnosis.
 
 The guided CLI previews additions/conflicts, applies only a reviewed hash-bound plan, and keeps recovery evidence. Host installation, project adoption, instruction loading and application baseline are separate states. The manual route below remains supported.
 

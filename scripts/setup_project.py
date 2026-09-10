@@ -60,10 +60,20 @@ def source_files(source):
 def adoption_files(source):
     # Keep resource closure, but do not transplant repository-maintenance files.
     files = source_files(source)
+    internal_skills = {'nd-setup-project', 'nd-skill-creator', 'nd-skill-editor'}
+    internal_docs = {'docs/PLUGINS.md', 'docs/ONBOARDING.md'}
     selected = {name: data for name, data in files.items()
-                if name in ('AGENTS.md', 'CLAUDE.md') or name.startswith(('.agents/', 'docs/'))}
+                if (name in ('AGENTS.md', 'CLAUDE.md') or name.startswith(('.agents/', 'docs/')))
+                and name not in internal_docs
+                and not (name.startswith('.agents/skills/') and name.split('/')[2] in internal_skills)}
+    skills = sorted({name.split('/')[2] for name in selected
+                     if name.startswith('.agents/skills/') and name.endswith('/SKILL.md')})
+    selected['.agents/skill-selection.json'] = (json.dumps({'schema': 1, 'skills': skills}, indent=2) + '\n').encode('utf-8')
+    # Ensure adoption journal is gitignored in adopted projects.
+    selected['.gitignore'] = b'# ND Workflow adoption recovery journal (private project text)\n.nd-workflow-adoption/\n'
     from core_export import LINK
     import posixpath
+    excluded = set(files) - set(selected)
     for name, data in selected.items():
         if name.endswith('.md'):
             def replace_link(match):
@@ -72,12 +82,36 @@ def adoption_files(source):
                 if resolved in files and resolved not in selected:
                     return match.group(1) + ' (reference in original ND Workflow package)'
                 return match.group(0)
-            selected[name] = LINK.sub(replace_link, data.decode('utf-8')).encode('utf-8')
+            text = data.decode('utf-8')
+            # Drop catalog rows for package-only resources rather than advertising
+            # setup/authoring tools as installed end-user capabilities.
+            lines = []
+            for line in text.splitlines(keepends=True):
+                targets = [posixpath.normpath(posixpath.join(posixpath.dirname(name), m.group(2).split('#', 1)[0]))
+                           for m in LINK.finditer(line)]
+                if name in ('AGENTS.md', 'docs/README.md') and any(t in excluded for t in targets):
+                    continue
+                lines.append(line)
+            selected[name] = LINK.sub(replace_link, ''.join(lines)).encode('utf-8')
     return selected
+
+
+def warn_nested_source(source, target):
+    """Location warning only: never move/delete a source clone during adoption."""
+    import sys
+    source = safe_target(source)
+    target = safe_target(target)
+    if source == target:
+        raise ValueError('Source and adoption target must be different directories')
+    if target in source.parents:
+        print(f'REVIEW_REQUIRED: source {source} is inside target {target}. '
+              'Recommend source outside project; ask user before relocating. '
+              'No files moved or deleted; nested instructions may cause duplicate discovery.', file=sys.stderr)
 
 
 def preview(source, target):
     target = safe_target(target)
+    warn_nested_source(source, target)
     files = adoption_files(source)
     entries = []
     for name, data in sorted(files.items()):
@@ -99,6 +133,7 @@ def load_plan(path):
 
 def validate_plan(source, target, plan):
     target = safe_target(target)
+    warn_nested_source(source, target)
     if not isinstance(plan, dict) or set(plan) != {'schema', 'target', 'entries'} or type(plan['schema']) is not int or plan['schema'] != SCHEMA:
         raise ValueError('Invalid plan schema')
     if plan['target'] != str(target):

@@ -20,7 +20,7 @@ A one-line auth fix is critical. Prose about auth is not automatically critical;
 - Questionnaire answers select requirements, not approval. Present the saved draft, identify its version, and stop for explicit scope approval. Silence, an ambiguous "continue", and an agent-written status label are not approval evidence.
 - Record approver, date, exact approved scope/version, decision evidence and exclusions. Scope approval permits task breakdown but not execution. An explicit approval and start instruction may authorize both; record each separately. Installs, destructive changes and publication retain their own gates.
 - Material scope changes invalidate affected approval: return proposal to draft, identify changed requirements and seek renewed approval before affected implementation. Non-semantic corrections retain approval with a recorded version mapping. On resume, verify approval evidence and execution authorization instead of trusting a task's next-command field.
-- A drafting task may finish with a delivered PRD still awaiting approval; an implementation task requires approved scope and execution authorization. A separate docs/plans file is optional when the task's inline plan suffices. Review-only requests remain read-only.
+- A drafting task may finish with a delivered PRD still awaiting approval; an implementation task requires approved scope and execution authorization. For single-executor features, update the drafting task in place to implementation mode upon approval rather than minting a duplicate task file. A separate docs/plans file is optional when the task's inline plan suffices. Review-only requests remain read-only.
 
 ## Execution
 

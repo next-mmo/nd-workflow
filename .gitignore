@@ -4,6 +4,9 @@
 # Review-only staged adoption copy
 .workflow-starter-review/
 
+# Adoption recovery journal (contains private project text)
+.nd-workflow-adoption/
+
 # Generated delivery archives
 /artifacts/
 

@@ -9,7 +9,13 @@ description: Guide ND Workflow adoption for fresh or existing projects and migra
 
 For existing docs or any workflow migration, read [document migration checklist](references/document-migration.md) before planning changes. Inventory and map old files to canonical roles; reuse useful paths, merge actual duplicates, and archive superseded files only after review. Avoid redundant templates and mixed mandatory workflows. Gate A reviews workflow ownership and document map; Gate B approves exact diffs, paths, backups and recovery before writes. Direction approval is not apply authorization. Ask unresolved user decisions through structured questions when available; do not ask discoverable facts. Keep one migration checkpoint and update its checklist rather than generating more summary docs.
 
-This extends agent guidance only. setup_project.py remains unchanged: no destination remapping or archival commands. Separate edits/moves require their own reviewed operation list and backups; the CLI journal does not cover them. Verify preserved facts, active work, links and applicable ND capability routing before claiming semantic adoption.
+Document consolidation remains agent-guided: setup_project.py has no destination remapping or archival commands. Separate edits/moves require their own reviewed operation list and backups; the CLI journal does not cover them. Verify preserved facts, active work, links and applicable ND capability routing before claiming semantic adoption.
+
+## Source location and end-user boundary
+
+Keep the package source outside the target project. If actual source is nested (such as <project>/nd-workflow-src), heed REVIEW_REQUIRED and ask the user whether to move it to an exact external location or retain it knowingly before applying. Never auto-move/delete; check dirty source work and collisions before a separately approved relocation, then regenerate preview. Do not treat package instructions or templates inside that clone as target-project facts. Do not clone another copy when an external package is already available.
+
+End-user adoption excludes nd-setup-project, nd-skill-creator, nd-skill-editor and distribution/onboarding guides; use them from the external package when needed. Daily skills and explicit selection metadata remain in the project. Existing internal copies require a reviewed cleanup map, not automatic removal. Confirm final catalog links and report leftover source copies; file adoption alone does not resolve duplicate host discovery.
 
 ## Procedure
 1. Resolve target directory and actual skill/package location. Inspect project instructions, hidden files, current changes and relevant manifests. Treat any nonempty directory as existing, including an unborn Git repo. Preserve branch state and unrelated work. Ask target or coding tool only if context cannot establish it.

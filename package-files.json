@@ -83,6 +83,7 @@
     "scripts/setup_project.py",
     "scripts/workflow_doctor.py",
     "tests/test_onboarding.py",
-    "tests/test_user_testing.py"
+    "tests/test_user_testing.py",
+    "tests/test_end_user_adoption.py"
   ]
 }
