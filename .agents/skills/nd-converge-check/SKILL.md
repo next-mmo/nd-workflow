@@ -1,5 +1,5 @@
 ---
-name: converge-check
+name: nd-converge-check
 description: Acceptance verification skill. Validates that an implementation completely satisfies its PRD or task acceptance criteria before marking work done. Compares each criterion against fresh evidence (test outputs, UI inspection, API responses) to prevent scope drift and untested requirements. Use when asked to "converge check", "verify against PRD", "check acceptance criteria", or before marking a medium/high-risk task done.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: task-status
+name: nd-task-status
 description: Inspect project task board, active in-progress work, blockers, and backlog. Use when asked "what is in progress", "show backlog", "what is blocked", "project status", or before picking the next task to work on. Read-only inspection; does not modify tasks.
 ---
 

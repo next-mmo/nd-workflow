@@ -2,12 +2,16 @@
 
 ## Choose a journey
 
-- **Fresh project:** open an existing empty directory, including hidden-file inspection. Ask the agent: "Use setup-project to add ND Workflow here. Set up workflow only; ask before choosing an application stack."
-- **Existing project:** "Use setup-project to adopt ND Workflow here. Preserve existing instructions, project facts, docs, code and uncommitted work. Show the adoption plan first."
-- **Migration:** "Use setup-project to migrate this project from Superpowers. Inventory unfinished work and ask replacement versus coexistence before changes."
-- **Diagnosis only:** "Use workflow-doctor to check this project's ND Workflow setup without changing files or running application commands."
+- **Fresh project:** open an existing empty directory, including hidden-file inspection. Ask the agent: "Use nd-setup-project to add ND Workflow here. Set up workflow only; ask before choosing an application stack."
+- **Existing project:** "Use nd-setup-project to adopt ND Workflow here. Preserve existing instructions, project facts, docs, code and uncommitted work. Show the adoption plan first."
+- **Migration:** "Use nd-setup-project to migrate this project from Superpowers. Inventory unfinished work and ask replacement versus coexistence before changes."
+- **Diagnosis only:** "Use nd-workflow-doctor to check this project's ND Workflow setup without changing files or running application commands."
 
-If skills are not discovered, explicitly read `.agents/skills/setup-project/SKILL.md` from this source package, or `skills/setup-project/SKILL.md` from an extracted plugin. Use the selected host's installation instructions in [PLUGINS.md](PLUGINS.md); this does not itself adopt project policy. Do not install both repository and plugin copies unintentionally.
+If skills are not discovered, explicitly read `.agents/skills/nd-setup-project/SKILL.md` from this source package, or `skills/nd-setup-project/SKILL.md` from an extracted plugin. Use the selected host's installation instructions in [PLUGINS.md](PLUGINS.md); this does not itself adopt project policy. Do not install both repository and plugin copies unintentionally.
+
+## Existing documents and workflow consolidation
+
+Use [document migration checklist](../.agents/skills/nd-setup-project/references/document-migration.md) for any old workflow or document layout. Keep useful canonical paths; do not blindly add all bundled docs. Inventory current facts, historical evidence, active tasks, duplicates and conflicting policies in one checkpoint. Review gate A confirms workflow ownership and document map; gate B authorizes exact diffs, archival paths, backups and recovery. Preserve unique facts and history, repair links, and verify applicable ND routing before claiming adoption complete. Separate archival/link edits are agent-guided and are not covered by setup_project.py's recovery journal. The CLI is unchanged.
 
 ## Preview and reviewed apply
 
@@ -50,7 +54,7 @@ After setup, use the next approved task directly. Invoke spec-feature only if re
 
 ## Superpowers cutover
 
-Use [migration procedure](../.agents/skills/setup-project/references/superpowers.md). Preserve designs, plans, history and unfinished tasks. Choose replacement or coexistence; define a single workflow owner for each task. Replacement does not authorize global uninstallation. Active host hooks outside project scope can block cutover until separately handled. Verify a fresh-session small task and a critical one-line auth scenario without performing production edits.
+Use [migration procedure](../.agents/skills/nd-setup-project/references/superpowers.md). Preserve designs, plans, history and unfinished tasks. Choose replacement or coexistence; define a single workflow owner for each task. Replacement does not authorize global uninstallation. Active host hooks outside project scope can block cutover until separately handled. Verify a fresh-session small task and a critical one-line auth scenario without performing production edits.
 
 ## Implementation boundaries
 

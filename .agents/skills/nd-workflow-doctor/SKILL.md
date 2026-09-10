@@ -1,5 +1,5 @@
 ---
-name: workflow-doctor
+name: nd-workflow-doctor
 description: Diagnose ND Workflow adoption and instruction-loading gaps without edits. Use when users ask check workflow setup, why are ND skills missing, or is onboarding complete. Not for application bug diagnosis, global runtime repair, or automatically applying configuration fixes.
 ---
 

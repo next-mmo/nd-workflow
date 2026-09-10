@@ -48,15 +48,19 @@ FIXTURE_REQUIRED = [
     ".agents/docs/ARCHITECTURE.md",
     ".agents/docs/PROJECT.md",
     ".agents/docs/WORKFLOW.md",
-    ".agents/skills/bump-version/SKILL.md",
-    ".agents/skills/compound/SKILL.md",
-    ".agents/skills/converge-check/SKILL.md",
-    ".agents/skills/doc-lookup/SKILL.md",
-    ".agents/skills/spec-feature/SKILL.md",
-    ".agents/skills/task-status/SKILL.md",
-    ".agents/skills/setup-project/SKILL.md",
-    ".agents/skills/setup-project/references/superpowers.md",
-    ".agents/skills/workflow-doctor/SKILL.md",
+    ".agents/skills/nd-bump-version/SKILL.md",
+    ".agents/skills/nd-compound/SKILL.md",
+    ".agents/skills/nd-converge-check/SKILL.md",
+    ".agents/skills/nd-doc-lookup/SKILL.md",
+    ".agents/skills/nd-spec-feature/SKILL.md",
+    ".agents/skills/nd-task-status/SKILL.md",
+    ".agents/skills/nd-setup-project/SKILL.md",
+    ".agents/skills/nd-setup-project/references/superpowers.md",
+    ".agents/skills/nd-workflow-doctor/SKILL.md",
+    ".agents/skills/nd-skill-creator/SKILL.md",
+    ".agents/skills/nd-skill-editor/SKILL.md",
+    ".agents/skills/nd-feedback-collector/SKILL.md",
+    ".agents/skills/nd-user-testing/SKILL.md",
     ".agents/templates/PLAN.md",
     ".agents/templates/PRD.md",
     ".agents/templates/RUNBOOK.md",
@@ -299,13 +303,13 @@ class TestValidateBrokenLink(FixtureTestCase):
 
 class TestValidateInvalidFrontmatter(FixtureTestCase):
     def test_missing_frontmatter_block(self) -> None:
-        path = self.fixture / ".agents/skills/doc-lookup/SKILL.md"
-        _write_text(path, "# doc-lookup without frontmatter\n\nbody\n")
+        path = self.fixture / ".agents/skills/nd-doc-lookup/SKILL.md"
+        _write_text(path, "# nd-doc-lookup without frontmatter\n\nbody\n")
         result = self.run_validate()
         self.assertNotEqual(result.returncode, 0)
         combined = result.stdout + result.stderr
         self.assertIn("frontmatter", combined.lower())
-        self.assertIn("doc-lookup", combined)
+        self.assertIn("nd-doc-lookup", combined)
 
 
 # --- Negative validation: unsafe manifest paths ------------------------
@@ -865,7 +869,7 @@ class TestSpecificationApprovalContract(unittest.TestCase):
         return (REPO_ROOT / relative).read_text(encoding="utf-8")
 
     def test_spec_only_persists_draft_and_stops(self):
-        text = self.text(".agents/skills/spec-feature/SKILL.md")
+        text = self.text(".agents/skills/nd-spec-feature/SKILL.md")
         for required in ("specification-only", "Save the draft PRD", "Stop after presenting",
                          "Questionnaire answers", "not scope approval"):
             self.assertIn(required, text)

@@ -1,5 +1,5 @@
 ---
-name: compound
+name: nd-compound
 description: Capture reusable technical learnings, edge cases, and environment quirks after completing a task. Use when finishing non-trivial features, resolving tricky bugs, or when the user says "compound", "capture learnings", or "record gotchas". Prevents future agents from repeating the same mistakes.
 ---
 

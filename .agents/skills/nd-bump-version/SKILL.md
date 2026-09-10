@@ -1,5 +1,5 @@
 ---
-name: bump-version
+name: nd-bump-version
 description: Safely bump version, build target environment, package release distribution zip, update changelog, and prepare git release tags. Use when asked to "bump version", "cut release", "prepare release", "build zip", "new release vX.Y.Z", or "bump to X.Y.Z".
 ---
 

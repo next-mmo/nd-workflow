@@ -1,6 +1,6 @@
 # Task Tracking
 
-Use [task template](../../.agents/templates/TASK.md) for multi-step work. Genuinely low-risk single-turn fixes skip task records; sensitive changes never qualify merely by size. Use [task-status](../../.agents/skills/task-status/SKILL.md) for read-only inspection of active WIP, blockers, and backlog.
+Use [task template](../../.agents/templates/TASK.md) for multi-step work. Genuinely low-risk single-turn fixes skip task records; sensitive changes never qualify merely by size. Use [nd-task-status](../../.agents/skills/nd-task-status/SKILL.md) for read-only inspection of active WIP, blockers, and backlog.
 
 - `todo-NNNN-slug.md`: planned.
 - `wip-NNNN-slug.md`: active, one per executor session; different tasks can run concurrently.
@@ -14,3 +14,7 @@ Record task mode: specification-only, implementation, or review-only. Pre-approv
 Update Resume State before interruption or ownership transfer, not only completion. See [handover drill](../HANDOVER.md). Coordinator owns shared files and combined-result verification; branch isolation alone does not prove integration.
 
 Archive only after required scope passes. Pending deployment, skipped checks, and stale evidence remain explicit. Historical session IDs are provenance, not a current contact method.
+
+## QA handoff
+
+Use [QA contract](../../.agents/skills/nd-user-testing/references/qa-handoff.md) for round reports and status events. Confirmed existing-behavior bugs create or reuse `todo-*` tasks when local triage is authorized; unresolved product scope creates a draft PRD and specification-only checkpoint. Ticket creation never authorizes fixes. Developers read the linked report, reproduction, evidence, risk gates and next action; record fix revision as READY_FOR_RETEST. QA closes bugs only after fresh reproduction and regression checks pass. Bug status and round outcome do not replace ND task lifecycle or deployment evidence.

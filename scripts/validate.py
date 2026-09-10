@@ -28,14 +28,18 @@ from pathlib import Path
 
 MANIFEST_FILENAME = "package-files.json"
 REQUIRED_SKILLS = (
-    "doc-lookup",
-    "spec-feature",
-    "converge-check",
-    "compound",
-    "bump-version",
-    "setup-project",
-    "workflow-doctor",
-    "task-status",
+    "nd-doc-lookup",
+    "nd-spec-feature",
+    "nd-converge-check",
+    "nd-compound",
+    "nd-bump-version",
+    "nd-setup-project",
+    "nd-workflow-doctor",
+    "nd-task-status",
+    "nd-skill-creator",
+    "nd-skill-editor",
+    "nd-feedback-collector",
+    "nd-user-testing",
 )
 # Hard-required manifest entries (independent of whatever else the
 # manifest lists). bootstrap = START-HERE.md (not .gitkeep).

@@ -12,6 +12,8 @@ Read the matching topic, not every document. Search relevant source/docs if an e
 | Delivery and integration | [WORKFLOW.md](../.agents/docs/WORKFLOW.md) | Risk gates, parallel work, current-doc reconciliation, release |
 | Resume and cold handover | [HANDOVER.md](HANDOVER.md) | Pausing, transferring ownership, verifying successor readiness |
 | Task tracking | [tasks/README.md](tasks/README.md) | Locate exact active task or archived evidence |
+| QA and developer handoff | [QA contract](../.agents/skills/nd-user-testing/references/qa-handoff.md) | Round events, bug status, task/PRD routing, evidence and retest closure |
+| Project-aware QA | [Project profiles](../.agents/skills/nd-user-testing/references/project-profiles.md) | App/game/CLI/workflow plan initialization and evidence-backed improvement proposals |
 | Change proposals | [prd/README.md](prd/README.md) | Unresolved product scope and history, not current behavior |
 | Larger plans | [plans/README.md](plans/README.md) | Complex design or integration phases |
 | Plan template | [PLAN.md](../.agents/templates/PLAN.md) | Multi-phase architectural transitions or refactoring |

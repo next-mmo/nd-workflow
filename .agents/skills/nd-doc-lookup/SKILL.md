@@ -1,5 +1,5 @@
 ---
-name: doc-lookup
+name: nd-doc-lookup
 description: Fast documentation and architecture lookup. Use when looking for existing PRDs, design specs, runtime architecture, or prior task records. Prevents token waste by routing directly to the right document and enforcing bounded reads.
 ---
 

@@ -62,8 +62,8 @@ class PluginTests(unittest.TestCase):
 
         continue_entries = collect(ROOT, 'continue')
         self.assertIn('.continue/plugin.json', continue_entries)
-        self.assertIn('.continue/prompts/spec-feature.prompt', continue_entries)
-        self.assertIn('.continue/prompts/converge-check.prompt', continue_entries)
+        self.assertIn('.continue/prompts/nd-spec-feature.prompt', continue_entries)
+        self.assertIn('.continue/prompts/nd-converge-check.prompt', continue_entries)
     def test_deterministic_zip_and_collision(self):
         a=self.root/'a.zip'; b=self.root/'b.zip'
         result=build(ROOT,'cursor',a); build(ROOT,'cursor',b)
@@ -71,6 +71,17 @@ class PluginTests(unittest.TestCase):
         self.assertEqual(result['sha256'],hashlib.sha256(a.read_bytes()).hexdigest())
         with self.assertRaises(FileExistsError): build(ROOT,'cursor',a)
         self.assertEqual(a.read_bytes(),b.read_bytes())
+
+    def test_skills_toggle_and_cli_override(self):
+        # Override to bundle only a single skill
+        entries = collect(ROOT, 'claude-code', skills_override=['nd-setup-project'])
+        self.assertIn('skills/nd-setup-project/SKILL.md', entries)
+        self.assertNotIn('skills/nd-doc-lookup/SKILL.md', entries)
+        self.assertNotIn('skills/nd-converge-check/SKILL.md', entries)
+
+        # Empty override should raise ValueError
+        with self.assertRaises(ValueError):
+            collect(ROOT, 'claude-code', skills_override=[])
     def test_unknown_target_and_outside_destination(self):
         with self.assertRaises(ValueError): collect(ROOT,'not-supported')
         with self.assertRaises(ValueError): build(ROOT,'cursor',ROOT.parent/'outside-plugin-test.zip')

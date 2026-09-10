@@ -26,14 +26,18 @@
 - Update affected current behavior docs and architecture before closure. Preserve decisions and next action, not chat transcripts; see [handover](docs/HANDOVER.md).
 
 ## Local Skills
-- [setup-project](.agents/skills/setup-project/SKILL.md): guided adoption and migration.
-- [workflow-doctor](.agents/skills/workflow-doctor/SKILL.md): read-only setup diagnosis.
-- [doc-lookup](.agents/skills/doc-lookup/SKILL.md): targeted documentation lookup.
-- [task-status](.agents/skills/task-status/SKILL.md): task board, WIP, blockers, backlog.
-- [spec-feature](.agents/skills/spec-feature/SKILL.md): unresolved product scope.
-- [converge-check](.agents/skills/converge-check/SKILL.md): acceptance verification.
-- [compound](.agents/skills/compound/SKILL.md): durable, non-obvious learnings only; no-op allowed.
-- [bump-version](.agents/skills/bump-version/SKILL.md): requested release operations.
+- [nd-setup-project](.agents/skills/nd-setup-project/SKILL.md): guided adoption/migration.
+- [nd-workflow-doctor](.agents/skills/nd-workflow-doctor/SKILL.md): setup/token diagnosis.
+- [nd-doc-lookup](.agents/skills/nd-doc-lookup/SKILL.md): targeted documentation lookup.
+- [nd-task-status](.agents/skills/nd-task-status/SKILL.md): task board, WIP, blockers, backlog.
+- [nd-spec-feature](.agents/skills/nd-spec-feature/SKILL.md): unresolved product scope.
+- [nd-converge-check](.agents/skills/nd-converge-check/SKILL.md): acceptance verification.
+- [nd-compound](.agents/skills/nd-compound/SKILL.md): durable learnings; no-op allowed.
+- [nd-bump-version](.agents/skills/nd-bump-version/SKILL.md): requested release operations.
+- [nd-skill-creator](.agents/skills/nd-skill-creator/SKILL.md): scaffold new skills.
+- [nd-skill-editor](.agents/skills/nd-skill-editor/SKILL.md): safe skill modifications.
+- [nd-feedback-collector](.agents/skills/nd-feedback-collector/SKILL.md): collect feedback and bugs.
+- [nd-user-testing](.agents/skills/nd-user-testing/SKILL.md): user QA/acceptance rounds.
 - Read linked skill explicitly when native discovery is unavailable; [setup](START-HERE.md).
 
 ## Commit Attribution

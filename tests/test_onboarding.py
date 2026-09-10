@@ -143,6 +143,23 @@ class OnboardingTests(unittest.TestCase):
         self.assertEqual(result['host_loading'], 'UNVERIFIED')
         self.assertEqual(result['application_baseline'], 'NOT_RUN')
         self.assertEqual(before, [(p.name, p.read_bytes()) for p in self.target.iterdir()])
+        self.assertIn('token_efficiency', result)
+        self.assertEqual(result['token_efficiency']['status'], 'TOKEN_SAVER')
+
+    def test_doctor_token_efficiency_evaluation(self):
+        # Create a small file: within budget
+        (self.target / 'AGENTS.md').write_text('Small agent policy', encoding='utf-8')
+        res1 = inspect_project(self.target)
+        self.assertEqual(res1['token_efficiency']['status'], 'TOKEN_SAVER')
+        self.assertEqual(len(res1['token_efficiency']['warnings']), 0)
+
+        # Create an over-budget file (>2500 estimated tokens, >10,000 chars)
+        bloated_text = 'A' * 10500
+        (self.target / 'AGENTS.md').write_text(bloated_text, encoding='utf-8')
+        res2 = inspect_project(self.target)
+        self.assertEqual(res2['token_efficiency']['status'], 'TOKEN_BURNER')
+        self.assertEqual(res2['status'], 'ATTENTION')
+        self.assertTrue(any('exceeds budget' in w for w in res2['token_efficiency']['warnings']))
 
     def test_case_collision_and_non_directory_ancestor(self):
         (self.target / 'agents.md').write_bytes(b'user')
@@ -172,7 +189,7 @@ class OnboardingTests(unittest.TestCase):
         source = preview(ROOT, self.target)
         self.assertEqual(source, preview(plugin, self.target))
         self.assertFalse(any(e['path'].startswith(('scripts/', 'tests/', 'example/')) for e in source['entries']))
-        self.assertIn('skills/setup-project/references/superpowers.md', entries)
+        self.assertIn('skills/nd-setup-project/references/superpowers.md', entries)
         result = subprocess.run([sys.executable, str(plugin / 'scripts/setup_project.py'), '--target', str(self.target)], cwd=self.target, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(json.loads(result.stdout), source)

@@ -1,9 +1,15 @@
 ---
-name: setup-project
+name: nd-setup-project
 description: Guide ND Workflow adoption for fresh or existing projects and migration from another workflow. Use when users request set up ND Workflow, onboard this repo, or migrate from Superpowers. Not for application feature implementation, dependency installation alone, or global agent configuration.
 ---
 
 # Set Up Project
+
+## Consolidation and user review
+
+For existing docs or any workflow migration, read [document migration checklist](references/document-migration.md) before planning changes. Inventory and map old files to canonical roles; reuse useful paths, merge actual duplicates, and archive superseded files only after review. Avoid redundant templates and mixed mandatory workflows. Gate A reviews workflow ownership and document map; Gate B approves exact diffs, paths, backups and recovery before writes. Direction approval is not apply authorization. Ask unresolved user decisions through structured questions when available; do not ask discoverable facts. Keep one migration checkpoint and update its checklist rather than generating more summary docs.
+
+This extends agent guidance only. setup_project.py remains unchanged: no destination remapping or archival commands. Separate edits/moves require their own reviewed operation list and backups; the CLI journal does not cover them. Verify preserved facts, active work, links and applicable ND capability routing before claiming semantic adoption.
 
 ## Procedure
 1. Resolve target directory and actual skill/package location. Inspect project instructions, hidden files, current changes and relevant manifests. Treat any nonempty directory as existing, including an unborn Git repo. Preserve branch state and unrelated work. Ask target or coding tool only if context cannot establish it.

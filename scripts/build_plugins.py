@@ -98,13 +98,19 @@ class ChatGPTProvider(BaseProvider):
     def build_identity(self, config: dict) -> dict:
         base = super().build_identity(config)
         instructions = (
-            '# ' + config['displayName'] + ' Instructions\n\n'
+            '# ' + config['displayName'] + ' (Web Chat Plugin)\n\n'
             + config['description'] + '\n\n'
+            + '## Operational Environment: Web Chat Without Direct Write\n'
+            + 'This assistant operates in web chat environments without direct filesystem write or shell execution access.\n'
+            + '- Deliver all files as self-contained code blocks declaring exact relative target paths (e.g. `// filepath: src/auth/token.ts`).\n'
+            + '- Provide explicit Git commands for branching, committing (conventional commits), and opening Pull Requests.\n'
+            + '- Enforce workflow gates conversationally before delivering code.\n\n'
             + '## Core Workflow Principles\n'
-            + '1. Spec before code: For new capabilities, draft or review a Delta PRD. For multi-step implementation, keep task checkpoints.\n'
-            + '2. Risk-tiered governance: Classify tasks as low, medium, high, or critical risk and enforce corresponding verification.\n'
-            + '3. Evidence-first verification: Verify changes with concrete test and execution outputs before claiming completion.\n'
-            + '4. Durable learnings: Capture reusable technical insights and environment quirks.\n\n'
+            + '1. Spec before code: For non-trivial capabilities, draft a PRD and pause for explicit scope approval before writing code.\n'
+            + '2. Risk-tiered governance: Classify requests as Low, Medium, High, or Critical risk and enforce corresponding verification.\n'
+            + '3. Task checkpoints: Break approved scope into step-by-step checklists in `docs/tasks/`.\n'
+            + '4. Evidence-first verification: Run converge check against acceptance criteria before PR creation.\n'
+            + '5. Durable learnings: Capture reusable technical insights and environment quirks.\n\n'
             + '## Conversation Starters\n'
             + '\n'.join(f'- {p}' for p in config['defaultPrompts']) + '\n'
         )
@@ -175,7 +181,21 @@ PROVIDERS: dict[str, BaseProvider] = {
 TARGETS = {name: provider.manifest_path for name, provider in PROVIDERS.items()}
 
 
-def collect(root: Path, target: str) -> dict[str, bytes]:
+def resolve_active_skills(config: dict, skills_override: list[str] | None = None) -> list[str]:
+    if skills_override is not None:
+        active = [s.strip() for s in skills_override if s.strip()]
+        if not active:
+            raise ValueError('Empty skills override list')
+        return active
+    raw_skills = config.get('skills', [])
+    if isinstance(raw_skills, dict):
+        return [k for k, enabled in raw_skills.items() if enabled]
+    if isinstance(raw_skills, list):
+        return list(raw_skills)
+    raise ValueError('Invalid skills configuration')
+
+
+def collect(root: Path, target: str, skills_override: list[str] | None = None) -> dict[str, bytes]:
     if target not in PROVIDERS:
         raise ValueError('Unknown target')
     provider = PROVIDERS[target]
@@ -183,15 +203,43 @@ def collect(root: Path, target: str) -> dict[str, bytes]:
     if report['status'] != 'PASS':
         raise ValueError('Core validation failed: ' + '; '.join(report['errors']))
     config = json.loads((root / 'plugins/plugin-config.json').read_text(encoding='utf-8'))
+    active_skills = resolve_active_skills(config, skills_override)
+    config = {**config, 'skills': active_skills}
     entries: dict[str, bytes] = {}
     source_hashes = {}
     # Core export has its own closed manifest and example-free documentation links.
     core = collect_core(root)
+    selected = set(active_skills)
+    known = {p.split('/')[2] for p in core if p.startswith('.agents/skills/') and p.endswith('/SKILL.md')}
+    if len(selected) != len(active_skills) or not selected <= known:
+        raise ValueError('Duplicate or unknown selected skill')
+    removed = {p for p in core if '/feedback/' in p or
+               (p.startswith('.agents/skills/') and p.split('/')[2] not in selected)}
+    core = {p: data for p, data in core.items() if p not in removed}
+    # Remove links to intentionally omitted resources from the closed starter.
+    import posixpath
+    from core_export import LINK
+    for p, data in list(core.items()):
+        if p.endswith('.md'):
+            def rewrite(match):
+                dest = match.group(2).split('#', 1)[0]
+                resolved = posixpath.normpath(posixpath.join(posixpath.dirname(p), dest))
+                return match.group(1) + ' (not included in selected bundle)' if resolved in removed else match.group(0)
+            core[p] = LINK.sub(rewrite, data.decode('utf-8')).encode('utf-8')
+    if selected != known:
+        core['.agents/skill-selection.json'] = encode({'schema': 1, 'skills': active_skills})
+    if removed or selected != known:
+        manifest = json.loads(core['package-files.json'])
+        core['package-files.json'] = encode({**manifest, 'files': sorted(core)})
     upstream_hashes = {}
     for name, data in core.items():
+        # Exclude feedback files from plugin bundles
+        if '/feedback/' in name or name.endswith('/feedback'):
+            continue
         entries['starter/' + name] = data
         source_hashes[name] = hashlib.sha256(data).hexdigest()
-        upstream_hashes[name] = hashlib.sha256((root / name).read_bytes()).hexdigest()
+        if (root / name).is_file():
+            upstream_hashes[name] = hashlib.sha256((root / name).read_bytes()).hexdigest()
     for name in config['skills']:
         if not is_safe_relative_path(name)[0] or '/' in name:
             raise ValueError('Unsafe skill name')
@@ -202,6 +250,8 @@ def collect(root: Path, target: str) -> dict[str, bytes]:
         prefix = f'.agents/skills/{name}/references/'
         for resource, data in core.items():
             if resource.startswith(prefix):
+                if '/feedback/' in resource:
+                    continue
                 entries[f'skills/{name}/references/' + resource[len(prefix):]] = data
         for subpath, data in provider.build_skill_files(name, root).items():
             entries[subpath] = data
@@ -227,7 +277,7 @@ def collect(root: Path, target: str) -> dict[str, bytes]:
     return entries
 
 
-def build(root: Path, target: str, output: Path) -> dict:
+def build(root: Path, target: str, output: Path, skills_override: list[str] | None = None) -> dict:
     root = root.resolve()
     output = output.absolute()
     errors = _check_output_path(root, output, [])
@@ -235,7 +285,7 @@ def build(root: Path, target: str, output: Path) -> dict:
         raise ValueError('; '.join(errors))
     if output.exists() or output.is_symlink():
         raise FileExistsError('Output exists; preserved')
-    entries = collect(root, target)
+    entries = collect(root, target, skills_override=skills_override)
     output.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(output, 'x', compression=zipfile.ZIP_DEFLATED) as z:
         for name, data in sorted(entries.items()):
@@ -263,9 +313,11 @@ def main():
     parser.add_argument('--target', choices=sorted(PROVIDERS), required=True)
     parser.add_argument('--output', required=True)
     parser.add_argument('--root', type=Path, default=ROOT)
+    parser.add_argument('--skills', help='Comma-separated list of skill names to bundle (overrides plugin-config.json)')
     args = parser.parse_args()
+    skills_override = [s.strip() for s in args.skills.split(',') if s.strip()] if args.skills else None
     try:
-        print(json.dumps(build(args.root, args.target, Path(args.output)), indent=2))
+        print(json.dumps(build(args.root, args.target, Path(args.output), skills_override=skills_override), indent=2))
     except (OSError, ValueError, KeyError) as exc:
         print(json.dumps({'status': 'FAIL', 'error': str(exc)}))
         return 1

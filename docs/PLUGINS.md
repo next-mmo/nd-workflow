@@ -1,13 +1,13 @@
 # Workflow Starter Plugins
 
-Local beta packages for Claude Code, Cursor, Codex, ChatGPT, Windsurf, and Continue. Eight on-demand skills share canonical source in `.agents/skills/`. Packaging version `0.1.0-beta.1` identifies these bundles only; no root release tag or public listing exists.
+Local beta packages for Claude Code, Cursor, Codex, ChatGPT, Windsurf, and Continue. Twelve on-demand skills share canonical source in `.agents/skills/`. Packaging version `0.1.0-beta.1` identifies these bundles only; no root release tag or public listing exists.
 
 ## What you receive
 
-- Eight skills: setup-project, workflow-doctor, doc-lookup, task-status, spec-feature, converge-check, compound, bump-version.
-- Guided adoption and read-only diagnosis: [ONBOARDING.md](ONBOARDING.md). Setup uses reviewed plans and recovery journals; no automatic global configuration changes.
+- Twelve skills: nd-setup-project, nd-workflow-doctor, nd-doc-lookup, nd-task-status, nd-spec-feature, nd-converge-check, nd-compound, nd-bump-version, nd-skill-creator, nd-skill-editor, nd-feedback-collector, nd-user-testing. QA includes a bundled [handoff contract](../.agents/skills/nd-user-testing/references/qa-handoff.md) for local status events, reports, bug tasks and draft PRDs; no automatic external issue publication. Active skills can be configured in `plugins/plugin-config.json` or overridden at build time via `--skills`.
+- Guided adoption and read-only diagnosis: [ONBOARDING.md](ONBOARDING.md). Setup uses reviewed plans and recovery journals; no automatic global configuration changes. Doctor provides token-budget efficiency classification (`TOKEN_SAVER` vs `TOKEN_BURNER`).
 - Platform manifest plus explicit resource-resolution note in generated skills.
-- Closed core profile under `starter/`: policies, skills, templates, docs, and portable tooling. Runnable examples stay in the full source distribution, keeping plugin context and staging small.
+- Closed core profile under `starter/`: policies, skills, templates, docs, and portable tooling. Runnable examples stay in the full source distribution, keeping plugin context and staging small. Feedback records are excluded from distribution packages.
 - Preview-first staging helper; no hooks, MCP servers, telemetry, external commands on load, or automatic project edits.
 - Codex presentation metadata includes display name, description, starter prompts and skill labels. Catalog UI layout remains controlled by the host; screenshot appearance is not guaranteed.
 
