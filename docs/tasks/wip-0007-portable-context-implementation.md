@@ -39,4 +39,4 @@
 ## Verification and closure
 - Criterion / command / result: recorded per phase in docs/plans/plan-0003-portable-context.md.
 - Host handover drills: 8 real (Codex CLI 5, MiniMax Code 3) — all passed, zero fixture writes; Claude Code and Cursor BLOCKED and reported as blocked, not simulated.
-- Status: implementation complete for the approved scope; host-matrix coverage partial and truthfully reported; waiting on commit/push authorization.
+- Status: implementation complete for the approved scope; host-matrix coverage partial and truthfully reported; committed on main. Follow-up release readiness tracked in PRD-0005.

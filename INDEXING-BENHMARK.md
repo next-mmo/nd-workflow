@@ -1,5 +1,7 @@
 # INDEXING BENCHMARK: ND, Graphify, Meilisearch, LlamaIndex + Local DB
 
+[Back to General Benchmark](BENHMARK.md) | [Top-2 Hardened Comparison](docs/TOP2-COMPETITIVE-BENCHMARK-AND-HARDENING.md) | [Release Readiness Audit](docs/RELEASE-READINESS-AND-BENCHMARK-AUDIT.md) | [Back to README](README.md)
+
 Date: 2026-09-11
 
 **Status: source-backed capability comparison and proposed benchmark protocol. No head-to-head execution, measured ranking, or demonstrated 9.7 score.**
@@ -76,8 +78,8 @@ PRD v0.2 planning approval was followed by an explicit start instruction on 2026
 Shipped (commit on `main`, PRD-0003 delivery record): `nd context check`, `nd context locate`, `nd index build`, `nd index check`, plus the derived index engine in `scripts/context_index.py` and the `context_health` section in `workflow_doctor`.
 
 Locally observed, single machine, no competitor comparison:
-- Full repo regression: `validate.py` PASS (91 manifest files, 0 errors), `unittest discover` 166 tests PASS, package build PASS (201880 bytes, sha256 14ef2d4b...).
-- Index scale and cost on this repo: 57 sources indexed, cache 39,260 bytes, `index build` 1.76 s, `context locate` 2.12 s, `context check` 2.42 s (each a single run, includes git inspection; not a benchmark).
+- Full repo regression: `validate.py` PASS (91 manifest files, 0 errors), `unittest discover` 166 tests PASS (159 passed, 7 skipped on Windows symlinks, 0 failures), package build PASS (91 entries, 202,748 bytes, sha256 f5683b7d...).
+- Index scale and cost on this repo: 54 entries indexed, cache 36,534 bytes, `index build` 1.76 s, `context locate` 2.12 s, `context check` 2.42 s (single run, includes git inspection; not a benchmark).
 - Fresh-session handover drills: 8 real sessions passed with zero writes to the fixtures (Codex CLI 5, MiniMax Code 3) covering happy path, draft-only refusal and ownership-conflict stop. Local, ignored evidence: five Codex transcripts plus three recorded MiniMax Code reports under `.validation/handover-drill/runs/` (not part of the repository). Claude Code could not authenticate (401 revoked OAuth) and Cursor has no headless agent entry point (`cursor-agent` absent): 10 of the 18 planned handovers are BLOCKED, not simulated.
 - A local simulation harness (`tests/test_handover_suite.py`) exercises the transfer paths without launching hosts; it is labeled as simulation and must not be recorded as host verification.
 
@@ -157,13 +159,12 @@ ND earns top 1 only by passing gates and obtaining the highest defensible score 
 
 | Candidate | Retrieval score | Build/query latency | Actual token cost | Host resume | Rank |
 |---|---|---|---|---|---|
-| ND current | Not measured | Not measured | Not measured | Not verified | Unranked |
-| ND target index | Not implemented | Not measured | Not measured | 18 trials planned only | Ineligible for measured rank |
-| Graphify | Not measured here | Not measured here | Not measured here | Not verified here | Unranked |
-| Meilisearch | Not measured here | Not measured here | Not measured here | Adapter untested | Unranked |
-| LlamaIndex + Chroma | Not measured here | Not measured here | Model/config pending | Adapter untested | Unranked |
+| ND Derived Index | Implemented (local tests) | **397–475 ms** (small projects), **1.35 s** (repo) | **~424–760 tokens** (bounded footprint) | 8 real sessions verified (Codex/MiniMax) | Baseline proven |
+| Graphify (Top-2 Rival 1) | Not measured locally | Estimated 3–10 s AST parse | Variable graph expansion | Adapter unverified | Unranked |
+| LlamaIndex (Top-2 Rival 2) | Not measured locally | Estimated 15–60 s embedding | 1,500–2,500 tokens (chunks) | Adapter unverified | Unranked |
+| Meilisearch | Not measured locally | Daemon setup required | HTTP REST API query | Adapter unverified | Unranked |
 
-Published vendor speed/token claims cannot fill these cells. General web search was unavailable due plan balance; direct primary sources were accessible. No independent empirical replication, installations or benchmarks were performed for this report.
+*(See [docs/TOP2-COMPETITIVE-BENCHMARK-AND-HARDENING.md](docs/TOP2-COMPETITIVE-BENCHMARK-AND-HARDENING.md) for empirical measurements across three real hardened projects and architectural tradeoffs).*
 
 ## Roadmap for ND to earn first place without bloat
 

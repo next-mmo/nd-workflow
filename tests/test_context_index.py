@@ -268,6 +268,29 @@ class TestContextCheck(ContextIndexBase):
         report = context_check(self.target)
         self.assertIn('docs/NOPE.md', report['missing_anchors'])
 
+    def test_symbol_extraction_and_ast_lookup(self):
+        self.fixture()
+        self.put('service.py', '# Service module\n\nclass TaxEngine:\n    pass\n\ndef calculate_tax(amount):\n    return amount * 0.1\n')
+        self.put('lib/api.js', '// API helper\nexport function fetchRates() {\n    return [];\n}\n')
+        payload = build_index(self.target)
+        entries_by_path = {e['path']: e for e in payload['entries']}
+        self.assertIn('service.py', entries_by_path)
+        self.assertIn('calculate_tax', entries_by_path['service.py']['symbols'])
+        self.assertIn('TaxEngine', entries_by_path['service.py']['symbols'])
+        self.assertIn('lib/api.js', entries_by_path)
+        self.assertIn('fetchRates', entries_by_path['lib/api.js']['symbols'])
+
+        # Test locate with live and cached symbols
+        save_cache(self.target, payload)
+        res_py = locate(self.target, 'calculate_tax')
+        self.assertTrue(res_py['results'])
+        self.assertEqual(res_py['results'][0]['path'], 'service.py')
+        self.assertEqual(res_py['results'][0]['line'], 6)
+
+        res_js = locate(self.target, 'fetchRates')
+        self.assertTrue(res_js['results'])
+        self.assertEqual(res_js['results'][0]['path'], 'lib/api.js')
+
 
 if __name__ == '__main__':
     unittest.main()

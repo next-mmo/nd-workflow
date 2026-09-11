@@ -1,6 +1,6 @@
 # Benchmark and Tool Compatibility
 
-[Back to README](README.md)
+[Back to README](README.md) | Repository documents: `INDEXING-BENHMARK.md` (indexing benchmark) | `docs/RELEASE-READINESS-AND-BENCHMARK-AUDIT.md` (pre-release audit)
 
 ## Why choose ND Workflow?
 
@@ -56,7 +56,7 @@ For a real comparison, run the same representative tasks with pinned framework r
 
 ## Readiness report: team use, context budget and release evidence
 
-This section incorporates the supplied **ND Workflow: Pre-Release Competitive Review & Recommendations** report from `.validation/mavis-deep-research/20260910_012424_readiness/final_turn_001.md` (2026-09-10). It is a corrected synthesis, not an endorsement of every original claim. The source reported unavailable live search; the upstream documentation cited as [S1]–[S4] in this comparison provides stronger evidence for competitor support. This section is self-contained; the local research file is not required to use it.
+This section incorporates the supplied **ND Workflow: Pre-Release Competitive Review & Recommendations** report from local research `.validation/mavis-deep-research/20260910_012424_readiness/final_turn_001.md` (2026-09-10). It is a corrected synthesis, not an endorsement of every original claim. The source was an internal research turn without live search; the upstream documentation cited as [S1]–[S4] in this comparison provides stronger evidence for competitor support. The ephemeral research note is not part of the release distribution; this section is self-contained.
 
 ### Example: three developers and one PM
 
@@ -127,9 +127,9 @@ Adapted from the report as future acceptance checks, not a fresh audit of reposi
 
 ---
 
-## Benchmark Score Table
+## Internal Task Verification History (Not Cross-Framework Benchmark)
 
-Historical delivery evidence from task records dated 2026-09-09; not a fresh test run or a controlled cross-framework benchmark. Python starter checks used Windows PowerShell and Python 3.12.10; Todo API/browser checks used Node.js and Playwright.
+Historical delivery evidence from task records dated 2026-09-09; not a fresh test run or a controlled cross-framework benchmark against peers. Python starter checks used Windows PowerShell and Python 3.12.10; Todo API/browser checks used Node.js and Playwright. This tracks internal development progress across early milestone tasks (`done-0001` through `done-0005`), not competitive speed or quality scores.
 
 | Task record | Test cases | Passed | Skipped | Separate validation evidence | Package evidence |
 |---|---:|---:|---:|---|---|
@@ -163,7 +163,7 @@ ND Workflow compared with four selected peers: Superpowers, OpenSpec, Compound E
 | GitHub Copilot | Unknown | Documented CLI plugin | Documented integration; IDE/CLI/cloud distinctions apply | Documented VS Code and CLI plugin | Documented installer target |
 | OpenCode | Unknown | Documented plugin install | Documented skills + commands | Documented native plugin | Documented installer target |
 
-ND routes: [plugin packages](docs/PLUGINS.md) and [manual tool setup](START-HERE.md). Six generated bundle targets do not equal six tested host integrations. A generic `AGENTS.md` loading route is not an additional tool. Competitor cells describe upstream claims only; no competitor was installed or exercised for this comparison.
+ND routes: [plugin packages](docs/PLUGINS.md) and [manual tool setup](START-HERE.md). Live fresh-session host drills were executed on Codex CLI (5 runs) and MiniMax Code (3 runs); Claude Code was BLOCKED (401 revoked OAuth) and Cursor was BLOCKED (`cursor-agent` CLI absent). Six generated bundle targets do not equal six tested host integrations. A generic `AGENTS.md` loading route is not an additional tool. Competitor cells describe upstream claims only; no competitor was installed or exercised for this comparison.
 
 ### Workflow and delivery approach
 
@@ -220,12 +220,12 @@ Limits: single machine and OS; the Node project's permission-failure paths are s
 Use pass/fail/unverified for each item; do not average missing evidence into a flattering score. Evidence below was re-checked on 2026-09-11; unticked items stay unticked because the evidence does not exist yet.
 
 - [x] Safe adoption: repeatable preview and reviewed apply, collision preservation, recovery, disabled skill selection, symlink/reparse rejection. Evidence: tests/test_onboarding.py and tests/test_tooling.py exercise preview/apply, journal recovery, collisions and link rejection; full suite green.
-- [x] Slim context: report measured file estimates separately from actual model usage; preserve all safety/risk gates and necessary routing. Evidence: `nd tokens` and `nd context check` print heuristic estimates with explicit limits (`nd context check` measured 387 estimated tokens on this repo); no model-usage claim is made.
+- [x] Slim context: report measured file estimates separately from actual model usage; preserve all safety/risk gates and necessary routing. Evidence: `nd tokens` and `nd context check` print heuristic estimates with explicit limits (`nd context check` measured ~424 estimated tokens on this repo, budget 500); no model-usage claim is made.
 - [x] Honest verification: unknown commands fail closed, command failures propagate, zero-test success is not acceptance. Evidence: tests/test_nd_cli.py asserts fail-closed unknown stacks, propagated failures and UNVERIFIED when no test command exists.
-- [x] Feature/context parity: task scope, owner, decisions, docs/index consumers and next action survive handover; no automatic implementation approval. Evidence: 8 real fresh-session drills passed on the two usable hosts; `nd context check` reports the fields from task files only and never grants approval. Coverage is partial (see below).
-- [x] Distribution parity: documented CLI and launchers included; packaged CLI exercised outside source checkout. Evidence: package built (91 entries, sha256 14ef2d4b...), extracted, and both `scripts/nd.py context check/index build` and `bin/nd.cmd context check/index check` were executed from the extraction.
+- [x] Feature/context parity: task scope, owner, decisions, docs/index consumers and next action survive handover; no automatic implementation approval. Evidence: 8 real fresh-session drills passed on the two usable hosts (Codex CLI: 5, MiniMax Code: 3); `nd context check` reports the fields from task files only and never grants approval. Coverage is partial (see below).
+- [x] Distribution parity: documented CLI and launchers included; packaged CLI exercised outside source checkout. Evidence: package built (91 entries, ~205 KB, deterministic zip with verified CRC and byte-identical sources), extracted, and both `scripts/nd.py context check/index build` and `bin/nd.cmd context check/index check` were executed from the extraction.
 - [x] Documentation sync: descriptions match commands, no stale score/token claims, affected links and manifest validated. Evidence: docs updated with the commands; `python scripts/validate.py` PASS (91 manifest files, 0 errors) after the updates.
-- [ ] Repeated testing: focused regressions then full suite, repeated clean fixture runs, and independent review. Partial: focused suites plus the full 166-test suite and repeated fixture runs were executed; independent review is being recorded separately.
+- [ ] Repeated testing: focused regressions then full suite, repeated clean fixture runs, and independent review. Partial: focused suites plus the full 168-test suite (160 passed, 8 skipped on Windows symlinks, 0 failures) and repeated fixture runs were executed; independent external review is being recorded separately.
 - [ ] Real host UX: fresh-user onboarding and fresh-session discovery in pinned hosts, with observed correction count and time to verified outcome. Partial only: Codex and MiniMax Code fresh sessions verified; Claude Code blocked (401 revoked OAuth) and Cursor blocked (no headless agent entry point); no correction-count or time-to-outcome data collected.
 - [ ] Fair comparison: same task, starting state, model, budget, cache policy and acceptance tests; multiple independent runs per workflow. Not started: no competitor framework was installed or run.
 

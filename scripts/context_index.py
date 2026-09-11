@@ -18,6 +18,7 @@ Guarantees and limits:
 - Historical tasks are excluded from default lookup; ``--include-history``
   is an explicit opt-in.
 """
+import ast
 import hashlib
 import json
 import os
@@ -39,7 +40,7 @@ SCHEMA_VERSION = 1
 CACHE_DIR = '.nd-cache'
 CACHE_NAME = 'context-index.json'
 MAX_SOURCE_BYTES = 100_000
-MAX_EXCERPT_CHARS = 200
+MAX_EXCERPT_CHARS = 140
 DEFAULT_LIMIT = 5
 MAX_LIMIT = 5  # PC-003: at most five proposed routes by default.
 DEFAULT_SUMMARY_TOKENS = 500
@@ -118,6 +119,36 @@ def _headings(text):
     return found
 
 
+CODE_EXTS = ('.py', '.js', '.ts', '.mjs', '.cjs')
+CODE_DIRS = ('src', 'scripts', 'lib', 'app')
+
+
+def _extract_symbols(rel, text):
+    """Extract code symbols (functions, classes, exports) and doc symbols (backticked identifiers)."""
+    symbols = set()
+    rel_low = rel.lower()
+    if rel_low.endswith('.py'):
+        try:
+            tree = ast.parse(text)
+            for node in tree.body:
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                    symbols.add(node.name)
+                    if isinstance(node, ast.ClassDef):
+                        for item in node.body:
+                            if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                                symbols.add(item.name)
+        except SyntaxError:
+            symbols.update(re.findall(r'^(?:async\s+)?def\s+([A-Za-z0-9_]+)\b', text, re.MULTILINE))
+            symbols.update(re.findall(r'^class\s+([A-Za-z0-9_]+)\b', text, re.MULTILINE))
+    elif rel_low.endswith(('.js', '.ts', '.mjs', '.cjs')):
+        symbols.update(re.findall(r'(?:export\s+(?:default\s+)?)?(?:async\s+)?function\*?\s+([A-Za-z0-9_$]+)', text))
+        symbols.update(re.findall(r'(?:export\s+)?class\s+([A-Za-z0-9_$]+)', text))
+        symbols.update(re.findall(r'export\s+(?:const|let|var)\s+([A-Za-z0-9_$]+)', text))
+    elif rel_low.endswith('.md'):
+        symbols.update(re.findall(r'`([A-Za-z_][A-Za-z0-9_]{2,40})`', text))
+    return sorted(symbols)[:40]
+
+
 def _requirement_ids(text):
     return sorted(set(re.findall(r'\b(?:PC|LP)-\d{3}\b', text)))[:8]
 
@@ -133,7 +164,7 @@ def read_bounded(target, rel):
 
 
 def iter_source_files(target):
-    """Bounded set of in-scope sources: root policy files, docs, agents docs/skills/templates."""
+    """Bounded set of in-scope sources: root policy/code files, docs, agents docs/skills/templates."""
     items = set()
     for name in ROOT_FILES:
         try:
@@ -141,9 +172,43 @@ def iter_source_files(target):
                 items.add(name)
         except ValueError:
             continue
+    # Discover root code files
+    try:
+        for entry in target.iterdir():
+            if entry.is_file() and entry.suffix.lower() in CODE_EXTS:
+                if not entry.is_symlink() and entry.name not in EXCLUDED_DIRS:
+                    try:
+                        checked_path(target, entry.name)
+                        items.add(entry.name)
+                    except ValueError:
+                        pass
+    except OSError:
+        pass
+    # Discover code files in standard source directories
+    for code_dir in CODE_DIRS:
+        base = target / code_dir
+        if not base.is_dir() or base.is_symlink():
+            continue
+        for dirpath, dirnames, filenames in os.walk(base, followlinks=False):
+            dirnames[:] = sorted(
+                name for name in dirnames
+                if name not in EXCLUDED_DIRS and not (Path(dirpath) / name).is_symlink())
+            for filename in sorted(filenames):
+                ext = Path(filename).suffix.lower()
+                if ext not in CODE_EXTS and ext != '.md':
+                    continue
+                path = Path(dirpath) / filename
+                if path.is_symlink():
+                    continue
+                rel = path.relative_to(target).as_posix()
+                try:
+                    checked_path(target, rel)
+                except ValueError:
+                    continue
+                items.add(rel)
     for root in SCAN_DIRS:
         base = target / root
-        if not base.is_dir():
+        if not base.is_dir() or base.is_symlink():
             continue
         for dirpath, dirnames, filenames in os.walk(base, followlinks=False):
             dirnames[:] = sorted(
@@ -223,6 +288,7 @@ def build_entry(target, rel, route=None):
         'source': 'catalog' if route else 'scan',
         'headings': [],
         'requirement_ids': [],
+        'symbols': [],
         'exists': False,
         'fingerprint': None,
         'content_sha256': None,
@@ -241,6 +307,7 @@ def build_entry(target, rel, route=None):
     entry['class'] = classify_path(rel, text)
     entry['headings'] = _headings(text)
     entry['requirement_ids'] = _requirement_ids(text)
+    entry['symbols'] = _extract_symbols(rel, text)
     entry['content_sha256'] = hashlib.sha256(text.encode('utf-8')).hexdigest()
     stat = checked_path(target, rel).stat()
     entry['fingerprint'] = {'size': stat.st_size, 'mtime_ns': stat.st_mtime_ns}
@@ -371,8 +438,14 @@ def _score(meta, tokens, text_low=None):
     path_low = meta.get('path', '').lower()
     topic_low = (meta.get('topic') or '').lower()
     headings_low = ' '.join(meta.get('headings') or []).lower()
+    symbols_low = [s.lower() for s in (meta.get('symbols') or [])]
+    symbols_str = ' '.join(symbols_low)
     score = 0
     for token in tokens:
+        if token in symbols_low:
+            score += 8
+        elif token in symbols_str:
+            score += 4
         if token in path_low:
             score += 3
         if token in topic_low:
@@ -386,13 +459,23 @@ def _score(meta, tokens, text_low=None):
 
 def _excerpt(text, tokens, limit_chars=MAX_EXCERPT_CHARS):
     lines = text.splitlines()
+    best_index = None
     for index, line in enumerate(lines):
         lowered = line.lower()
-        if any(token in lowered for token in tokens):
-            chunk = ' '.join(part.strip() for part in lines[index:index + 3] if part.strip())
-            if len(chunk) > limit_chars:
-                chunk = chunk[:limit_chars - 3] + '...'
-            return chunk, index + 1
+        if any(f'def {token}' in lowered or f'class {token}' in lowered or f'function {token}' in lowered or f'#{token}' in lowered for token in tokens):
+            best_index = index
+            break
+    if best_index is None:
+        for index, line in enumerate(lines):
+            lowered = line.lower()
+            if any(token in lowered for token in tokens):
+                best_index = index
+                break
+    if best_index is not None:
+        chunk = ' '.join(part.strip() for part in lines[best_index:best_index + 3] if part.strip())
+        if len(chunk) > limit_chars:
+            chunk = chunk[:limit_chars - 3] + '...'
+        return chunk, best_index + 1
     return '', None
 
 
@@ -412,7 +495,7 @@ def _live_candidates(target, tokens, include_history, stats):
         if klass == HISTORICAL and not include_history:
             continue
         meta = {'path': rel, 'class': klass, 'topic': Path(rel).stem.replace('-', ' '),
-                'headings': _headings(text)}
+                'headings': _headings(text), 'symbols': _extract_symbols(rel, text)}
         score = _score(meta, tokens, text.lower())
         if score <= 0:
             continue

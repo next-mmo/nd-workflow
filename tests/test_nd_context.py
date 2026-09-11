@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 from scripts.nd import (
-    ROOT, cmd_context_check, cmd_context_locate, cmd_index_build, cmd_index_check,
+    ROOT, cmd_context_check, cmd_context_locate, cmd_handover, cmd_index_build, cmd_index_check,
 )
 
 CATALOG = """# Documentation Catalog
@@ -129,6 +129,29 @@ class NdContextCli(unittest.TestCase):
             capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('docs/HANDOVER.md', result.stdout)
+
+    def test_handover_command_and_prompt(self):
+        code, output = self.call_cli(cmd_handover, str(self.target))
+        self.assertEqual(code, 0, output)
+        data = json.loads(output)
+        self.assertEqual(data['status'], 'HANDOVER_READY')
+        self.assertEqual(data['task'], 'docs/tasks/wip-0001-alpha.md')
+        self.assertEqual(data['owner'], 'root session')
+        self.assertEqual(data['scope_approval'], 'approved 2026-01-01')
+
+        # Test prompt mode
+        code, prompt_out = self.call_cli(cmd_handover, str(self.target), prompt=True)
+        self.assertEqual(code, 0, prompt_out)
+        self.assertIn('ND FRESH-SESSION HANDOVER PROMPT', prompt_out)
+        self.assertIn('docs/tasks/wip-0001-alpha.md', prompt_out)
+        self.assertIn('root session', prompt_out)
+
+        # Test no active task
+        task_path = self.target / 'docs/tasks/wip-0001-alpha.md'
+        task_path.unlink()
+        code, no_task_out = self.call_cli(cmd_handover, str(self.target))
+        self.assertEqual(code, 1, no_task_out)
+        self.assertIn('NO_ACTIVE_TASK', no_task_out)
 
 
 if __name__ == '__main__':

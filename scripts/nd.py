@@ -270,6 +270,60 @@ def cmd_plugins(output_dir='artifacts/plugins'):
     return 0
 
 
+def cmd_handover(target_path='.', prompt=False):
+    """Inspect active task and output verified handover status or fresh-agent prompt."""
+    target = safe_target(Path(target_path))
+    from context_index import context_check
+    check = context_check(target)
+    active = check.get('active_tasks', [])
+
+    if not active:
+        print(json.dumps({
+            'status': 'NO_ACTIVE_TASK',
+            'target': str(target),
+            'message': 'No active task found in docs/tasks/ (no wip-*.md or blocked-*.md).',
+            'next_action': 'Run `nd task "<title>"` to start a tracked task before handover.'
+        }, indent=2))
+        return 1
+
+    task_info = active[0]
+    fields = task_info.get('fields', {})
+    task_path = task_info.get('path', 'unknown')
+    owner = fields.get('owner', 'unassigned')
+    scope_approval = fields.get('scope_approval', 'unapproved')
+    next_action = fields.get('next_action', 'none recorded')
+    revision = task_info.get('revision', 'UNKNOWN')
+
+    if prompt:
+        print('=' * 60)
+        print('ND FRESH-SESSION HANDOVER PROMPT (Ready to paste into successor agent)')
+        print('=' * 60)
+        print('Resume work on this project under ND Workflow:')
+        print(f'1. Active Task: {task_path}')
+        print(f'   - Owner: {owner}')
+        print(f'   - Scope Approval: {scope_approval}')
+        print(f'   - Next Action: {next_action}')
+        print(f'   - Git Base Revision: {revision}')
+        print('2. Core Policy:')
+        print('   - Consult AGENTS.md for risk precedence.')
+        print(f'   - Inspect {task_path} before editing code.')
+        print('   - Fail closed: run project tests before claiming completion.')
+        print('=' * 60)
+        return 0
+
+    print(json.dumps({
+        'status': 'HANDOVER_READY',
+        'task': task_path,
+        'owner': owner,
+        'scope_approval': scope_approval,
+        'next_action': next_action,
+        'revision': revision,
+        'checkpoint_health': check.get('checkpoint'),
+        'hint': 'Run `nd handover --prompt` to generate prompt text for the successor agent.'
+    }, indent=2))
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
@@ -301,6 +355,9 @@ def main():
         index_cmd.add_argument('target', nargs='?', default='.')
     plugins = sub.add_parser('plugins')
     plugins.add_argument('--output', default='artifacts/plugins')
+    handover = sub.add_parser('handover', help='Generate fresh-session handover prompt and state')
+    handover.add_argument('target', nargs='?', default='.')
+    handover.add_argument('--prompt', action='store_true', help='Output ready-to-paste fresh agent bootstrap prompt')
     args = parser.parse_args()
     try:
         if args.command == 'init':
@@ -309,6 +366,8 @@ def main():
             return cmd_task(args.title, args.target)
         if args.command == 'plugins':
             return cmd_plugins(args.output)
+        if args.command == 'handover':
+            return cmd_handover(args.target, prompt=args.prompt)
         if args.command == 'context':
             if args.context_command == 'check':
                 return cmd_context_check(args.target)

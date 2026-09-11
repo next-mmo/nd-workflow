@@ -2,7 +2,9 @@
 
 Lightweight, evidence-driven delivery workflow for AI-assisted software development.
 
-`AGENTS.md` holds shared policy; local skills hold task-specific procedures. Works across Claude Code, OpenAI Codex, Cursor, Aider, and custom LLM agent tools.
+`AGENTS.md` holds shared policy; local skills hold task-specific procedures. Historical fresh-session checks were recorded on OpenAI Codex and MiniMax Code; current-candidate host verification remains incomplete. Setup routes and generated package targets have distinct coverage (see [START-HERE.md](START-HERE.md) and [docs/PLUGINS.md](docs/PLUGINS.md)).
+
+**Evaluation build, not certified for production:** earlier readiness scores are withdrawn. Local test results do not replace real-user onboarding, declared-platform execution, independent review or maintainer signoff.
 
 ---
 
@@ -55,6 +57,9 @@ python scripts/nd.py context check path/to/project
 
 # Bounded lookup (max five routes); history requires --include-history:
 python scripts/nd.py context locate "handover" --target path/to/project
+
+# Format fresh-agent handover prompt from active task:
+python scripts/nd.py handover --prompt path/to/project
 
 # Build or inspect the disposable derived cache (.nd-cache, ignored by Git):
 python scripts/nd.py index build path/to/project
