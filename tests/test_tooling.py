@@ -25,6 +25,7 @@ import unittest
 import uuid
 import zipfile
 from pathlib import Path
+from unittest import mock
 
 # --- Paths --------------------------------------------------------------
 
@@ -899,6 +900,51 @@ class TestSpecificationApprovalContract(unittest.TestCase):
         self.assertIn("execution authorization", text)
         self.assertIn("awaiting approval", text)
 
+
+class TestStageLinkBoundary(unittest.TestCase):
+    """``reject_links`` must stop at the platform's top level.
+
+    Regression: walking ancestors to the filesystem root rejected
+    OS-owned aliases such as macOS ``/var -> /private/var``. Every
+    temporary-directory target failed on the macOS CI cells even though
+    no caller-controlled link was involved.
+    """
+
+    def setUp(self) -> None:
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        import stage_project
+
+        self.stage_project = stage_project
+
+    @staticmethod
+    def _paths():
+        root = Path(Path.cwd().anchor)
+        alias = root / "platform-alias"
+        project = alias / "workspace" / "project"
+        return alias, project
+
+    def test_top_level_platform_alias_tolerated(self) -> None:
+        alias, project = self._paths()
+        with mock.patch.object(self.stage_project, "linked", lambda p: p == alias):
+            # macOS /var-style alias: no caller-controlled link, no error.
+            self.stage_project.reject_links(project)
+
+    def test_top_level_path_itself_still_rejected(self) -> None:
+        alias, _ = self._paths()
+        with mock.patch.object(self.stage_project, "linked", lambda p: p == alias):
+            # The path a caller asks about is always inspected, even when
+            # it sits directly under the filesystem root.
+            with self.assertRaises(ValueError):
+                self.stage_project.reject_links(alias)
+
+    def test_link_below_top_level_still_rejected(self) -> None:
+        _, project = self._paths()
+        for linked_path in (project, project.parent):
+            with mock.patch.object(
+                self.stage_project, "linked", lambda p, c=linked_path: p == c
+            ):
+                with self.assertRaises(ValueError, msg=str(linked_path)):
+                    self.stage_project.reject_links(project)
 
 # --- Entry point --------------------------------------------------------
 

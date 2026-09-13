@@ -15,9 +15,27 @@ def linked(path):
     return path.is_symlink() or (os.name == 'nt' and path.exists() and bool(path.lstat().st_file_attributes & 1024))
 
 
+def top_level_component(path):
+    """True for the filesystem root and its direct children.
+
+    Those components belong to the operating system, not to the project
+    path a caller controls: macOS ships /var, /tmp and /etc as symlinks
+    into /private, so treating them as escapes would refuse every target
+    reached through a platform directory such as the system temp dir.
+    """
+    parent = path.parent
+    return parent == Path(parent.anchor)
+
+
 def reject_links(path):
-    if any(linked(p) for p in (path, *path.parents)):
-        raise ValueError('Path contains link/reparse point')
+    # The requested path is always inspected. Above it, only
+    # caller-controlled components are; the walk stops at the platform's
+    # top level instead of continuing to the filesystem root.
+    for index, candidate in enumerate((path, *path.parents)):
+        if index and top_level_component(candidate):
+            break
+        if linked(candidate):
+            raise ValueError('Path contains link/reparse point')
 
 
 def unique_object(pairs):
