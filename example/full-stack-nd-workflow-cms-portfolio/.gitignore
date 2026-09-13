@@ -3,3 +3,6 @@ data/
 *.tmp.*
 .test-data/
 test-results/
+
+# ND Workflow recovery journal
+.nd-workflow-adoption/
