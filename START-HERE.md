@@ -4,7 +4,22 @@ Lightweight, evidence-driven delivery workflow for coding projects. `AGENTS.md` 
 
 Tool-neutral instructions do not imply automatic discovery in every agent. Configure your tool below and verify loading in a fresh session.
 
-## Guided setup (recommended)
+## Small CLI, safe setup
+
+From the ND package root, preview adoption into an existing project directory. `init` preserves live files; reviewed plans use the existing hash-bound apply and recovery journal. Host loading and application tests are separate checks. No fixed setup-time or token-saving promise.
+
+```powershell
+# Replace path/to/project with an existing target. Run from ND source/package root:
+python scripts/nd.py init path/to/project
+python scripts/nd.py doctor path/to/project
+python scripts/nd.py tokens path/to/project
+python scripts/nd.py check path/to/project
+python scripts/nd.py task "feature or bug description" --target path/to/project
+```
+
+`init --plan path/to/review-plan.json` saves an exclusive review plan outside the target. Resolve every collision deliberately, review the plan, then use `init --apply-plan path/to/review-plan.json`. Existing setup/authoring tools stay in the original package; project adoption uses the canonical end-user profile. `check` supports source-backed Node scripts and Rust/Go conventions; unknown or ambiguous runners, including unconfigured Python runners, require explicit project-specific verification. `tokens` inventories root files and available skill bodies using a character-count heuristic, not per-turn usage.
+
+## Guided setup
 
 Choose **fresh project**, **existing project**, or **migration from Superpowers** in [guided onboarding](docs/ONBOARDING.md). Recommended location: clone once into a global user directory (`~/.nd-workflow` or `%USERPROFILE%\.nd-workflow`), or install as an IDE plugin. Run adoption from there with `--target <project>` so project trees stay clean of package metadata. Invoke `nd-setup-project`, or explicitly read `.agents/skills/nd-setup-project/SKILL.md` if discovery is unavailable. Use `nd-workflow-doctor` for read-only diagnosis.
 
@@ -43,7 +58,7 @@ Do not create adapters for tools you do not use. The included `CLAUDE.md` is a p
 
 1. Start a new session at project root. Use the tool's context/instruction inspector, when available, to confirm root instructions loaded. For Claude Code, check `/context` for `CLAUDE.md`.
 2. Ask which project instructions loaded and which rule applies to a one-line auth fix. Expected: highest applicable risk, not low-risk fast path. An answer alone does not prove automatic loading; check tool context when possible.
-3. Inspect available skills. Confirm the twelve bundled names (nd-setup-project, nd-workflow-doctor, nd-doc-lookup, nd-task-status, nd-spec-feature, nd-converge-check, nd-compound, nd-bump-version, nd-user-testing, nd-feedback-collector, nd-skill-creator, nd-skill-editor) are discovered, or explicitly load one by path and verify it is readable without executing its workflow.
+3. Inspect available skills. Confirm the twelve bundled names (nd-setup-project, nd-workflow-doctor, nd-doc-lookup, nd-task-status, nd-spec-feature, nd-converge-check, nd-compound, nd-bump-version, nd-user-testing, nd-feedback-collector, nd-skill-creator, nd-skill-editor) are discovered; in an adopted project, confirm the names selected in `.agents/skill-selection.json` match installed canonical skills. Or explicitly load one by path and verify it is readable without executing its workflow.
 4. Record tool version, setup route, and observed result in `.agents/docs/PROJECT.md`. Mark unchecked tools unverified; repeat after tool/config changes.
 
 Official references: [Codex repository workflows](https://developers.openai.com/blog/skills-agents-sdk), [Claude instructions](https://code.claude.com/docs/en/memory), [Claude skills](https://code.claude.com/docs/en/skills), [Aider conventions](https://aider.chat/docs/usage/conventions.html).

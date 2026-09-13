@@ -95,3 +95,13 @@ Before publishing or announcing ND Workflow to users:
 - [x] Explicitly state supported and partially verified hosts in `START-HERE.md` and `README.md`.
 - [ ] Set up continuous integration (GitHub Actions) for Linux, macOS, and Windows to verify cross-platform claims.
 - [ ] Conduct at least one blinded test of fresh-project onboarding with an external human developer.
+
+---
+
+## Reconciliation note (2026-09-13)
+
+Appended, not a rewrite: the audit above records 2026-09-11 observations and stays historical.
+
+- Test counts here are superseded. The suite now runs 191 tests. On the 2026-09-13 local candidate it completed OK with 0 failures and 0 skips; the earlier Windows symlink skips do not reproduce on a host where Python can create symlinks.
+- Continuous integration now exists (`.github/workflows/ci.yml`: ubuntu/windows/macos x Python 3.10/3.11 x Node 20). The run for revision `94a4d1c` passed the ubuntu and windows cells and failed both macOS cells with `Path contains link/reparse point` from `scripts/stage_project.py` `reject_links`, which rejected OS-level aliases such as macOS `/var -> /private/var`. A local fix (platform top-level boundary) with regression tests is prepared; the macOS cells stay unverified until a fresh remote run exists.
+- Score and release gate remain governed by [RELEASE-READINESS-SCORECARD.md](RELEASE-READINESS-SCORECARD.md): readiness UNASSESSED, release BLOCKED. The two unchecked items above remain unchecked.

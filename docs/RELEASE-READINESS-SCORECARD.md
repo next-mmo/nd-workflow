@@ -35,6 +35,8 @@ No complete criterion PASS is awarded from the withdrawn ledger. This does not m
 
 Candidate-001 is preserved for history, not approved for production. Candidate-002 local evaluation artifacts and command evidence, when available, live in `docs/evidence/readiness/candidate-002/` and `artifacts/readiness-correction/`. Each artifact's measured hash is in that evaluation manifest. A local test PASS is scoped to its command, never a rubric or release PASS.
 
+Candidate-003 (2026-09-13, working tree at `94a4d1c` plus uncommitted local changes) records raw local observations, the red macOS CI cells for `94a4d1c`, a prepared but unpublished macOS link-check fix, a MiniMax Code fresh-session loading drill, and a prepared non-author onboarding protocol under `docs/evidence/readiness/candidate-003/`. Its criteria remain pre-review: no criterion is awarded PASS and no score is computed. The maintainer declined to publish the fix on 2026-09-13, so the macOS cells stay unverified, and the human onboarding, usability and maintainer-signoff criteria remain not run.
+
 See [approved requirements](prd/prd-0005-internal-release-readiness.md), [execution checkpoint](tasks/task-0012-internal-release-readiness-spec.md), and [withdrawn ledger](evidence/readiness/candidate-001/criteria.json).
 
 Original incorrect records were backed up to `artifacts/readiness-correction/withdrawn-records-20260911-171433.zip` before correction. They are retained as error history, not evidence of readiness.
