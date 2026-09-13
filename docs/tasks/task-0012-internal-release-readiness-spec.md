@@ -51,3 +51,9 @@ Fresh command results and independent review will be appended after execution. C
 - Fresh-session host drill on MiniMax Code (child session `mvs_af4f20bc8e864afe85e767daaae5889a`): AGENTS.md auto-loaded, twelve `nd-*` skills discoverable, critical risk tier confirmed for a one-line auth fix, checkpoint-only recovery read succeeded, zero writes. Host-loading evidence only, not human onboarding.
 - Raw unreviewed observations: `artifacts/readiness-observations/20260913-local/` including `manifest.json`. No score was computed; the scorecard remains UNASSESSED and the release gate BLOCKED.
 - Unchanged blockers: macOS remote CI results (needs an authorized push or PR), non-author human onboarding (H4), human timing/help observations (U1-U3), maintainer score reproduction and signoff.
+
+## Progress record 2026-09-14
+
+- The maintainer authorized a full push. Three commits were published to `origin/main` as revision `299237d`: `c362e0d` (reject_links fix plus regression tests), `cab55d6` (candidate-003 evidence and release-doc reconciliation), `299237d` (adoption trees, retrieval drafts, example updates). The two Rust trial fixtures remain untracked because they are embedded Git repositories and need an explicit embed-or-submodule decision.
+- CI run `34773737906` for `299237d` passed all six cells: ubuntu, windows and macos at Python 3.10 and 3.11 with Node 20. The macOS cells that were red for `94a4d1c` are green now, so the platform matrix is covered for this revision; the run log is recorded under `docs/evidence/readiness/candidate-003/commands/`.
+- Remaining blockers: non-author human onboarding (H4), human timing/help observations (U1-U3), the C2 protected-fixture double run from clean starts, H3 host negative cases, the BENHMARK.md count reconciliation, and the maintainer signoff.

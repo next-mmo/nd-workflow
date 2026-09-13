@@ -11,7 +11,10 @@
     "branch": "main",
     "revision": "94a4d1c25d0b9184fe7045342224f3c588f80410",
     "dirty": true,
-    "committed_fix": false,
+    "committed_fix": true,
+    "published_revision": "299237d",
+    "published_on": "2026-09-14",
+    "published_content": "three commits: c362e0d (reject_links fix plus regression tests), cab55d6 (candidate-003 evidence and release-doc reconciliation), 299237d (adoption trees, retrieval drafts and example updates). The two Rust trial fixtures remain untracked because they are embedded Git repositories.",
     "staged_local_edits": [
       ".agents/docs/PROJECT.md",
       "START-HERE.md",
@@ -61,7 +64,7 @@
       "log": "commands/ci-failed-macos.log"
     },
     "local_fix": "scripts/stage_project.py: top_level_component() boundary in reject_links; regression tests in tests/test_tooling.py::TestStageLinkBoundary",
-    "macos_status": "UNVERIFIED - the maintainer declined to publish/push the fix on 2026-09-13, so no fresh remote run exists. This cell cannot be claimed.",
+    "macos_status": "VERIFIED for revision 299237d - CI run 34773737906 passed all six cells, both macOS cells included, on 2026-09-14. Log: commands/ci-run-34773737906.log.",
     "python_3_10_status": "UNVERIFIED locally (local runtime is 3.11.13); the ubuntu/windows 3.10 cells passed remotely."
   },
   "host_records": {
